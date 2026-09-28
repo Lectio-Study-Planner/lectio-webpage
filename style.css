@@ -1,0 +1,158 @@
+:root {
+    color-scheme: light dark;
+    --text: #1d1d1f;
+    --muted: #6e6e73;
+    --bg: #ffffff;
+    --surface: #f4f5f7;
+    --rule: #d2d2d7;
+    --accent: #4a90d9;
+    --green: #5cb85f;
+    --blue: #4a90d9;
+    --orange: #f0ad4e;
+    --purple: #7e57c2;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #f5f5f7;
+        --muted: #a1a1a6;
+        --bg: #1c1c1e;
+        --surface: #2c2c2e;
+        --rule: #3a3a3c;
+        --accent: #5a9fe0;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 17px/1.55 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial,
+        sans-serif;
+    overflow-wrap: break-word;
+}
+
+a {
+    color: var(--accent);
+}
+
+.hero,
+main,
+footer {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.hero {
+    text-align: center;
+    padding-top: 4.5rem;
+    padding-bottom: 3rem;
+}
+
+.icon {
+    display: block;
+    margin: 0 auto 1.25rem;
+    width: 128px;
+    height: 128px;
+}
+
+h1 {
+    font-size: 3rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+
+.tagline {
+    font-size: 1.6rem;
+    line-height: 1.25;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 0.4rem 0 1.25rem;
+}
+
+.lede {
+    max-width: 36rem;
+    margin: 0 auto;
+    font-size: 1.15rem;
+    color: var(--muted);
+}
+
+.cta {
+    margin: 2rem 0 0;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.6rem 1.25rem;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1rem;
+    padding-bottom: 4rem;
+}
+
+.features article {
+    background: var(--surface);
+    border-radius: 18px;
+    padding: 1.4rem 1.5rem;
+}
+
+.features h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    margin: 0 0 0.5rem;
+}
+
+.features p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.97rem;
+}
+
+.dot {
+    flex: none;
+    width: 1.6rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: var(--c);
+}
+
+footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    border-top: 1px solid var(--rule);
+    padding-top: 1.25rem;
+    padding-bottom: 2.5rem;
+    font-size: 0.88rem;
+    color: var(--muted);
+}
+
+footer p {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+}
