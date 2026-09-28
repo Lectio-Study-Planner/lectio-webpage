@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Send Feedback – Lectio</title>
+<meta name="description" content="Report a bug or request a feature for the Lectio semester planner.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="narrow">
+<nav class="back"><a href="./">← Lectio</a></nav>
+<h1>Send Feedback</h1>
+<p class="lede-left">Found a bug or missing something? Tell us here. No account needed; the app has the same form under Profile ▸ Send Feedback.</p>
+
+<form id="feedback" novalidate>
+<fieldset class="segmented">
+<legend>Kind</legend>
+<label><input type="radio" name="type" value="bug" checked> Bug report</label>
+<label><input type="radio" name="type" value="feature"> Feature request</label>
+</fieldset>
+
+<label for="title">Title</label>
+<input id="title" name="title" type="text" maxlength="200" autocomplete="off" required>
+
+<label for="body">Description</label>
+<textarea id="body" name="body" rows="8" required></textarea>
+
+<!-- Left empty by people; bots that fill every field are dropped. -->
+<div class="trap" aria-hidden="true">
+<label for="website">Website</label>
+<input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+</div>
+
+<p id="status" role="status" aria-live="polite"></p>
+<button type="submit">Send</button>
+</form>
+</main>
+
+<footer>
+<p>© 2026 Lectio</p>
+<p>
+<a href="https://lectio-study-planner.github.io/lectio-legal-docs/impressum.en.html">Legal Notice</a>
+<a href="https://lectio-study-planner.github.io/lectio-legal-docs/datenschutzerklaerung.en.html">Privacy Policy</a>
+</p>
+</footer>
+
+<script>
+// Posts to the same endpoint and contract as the app's FeedbackClient
+// (Lectio-Study-Planner/lectio-feedback): { type, title, body, version }.
+// The function writes `version` into the issue footer as `_Lectio v<version>_`.
+const ENDPOINT = 'https://lectio-opal.vercel.app/api/feedback';
+const WEB_VERSION = '? via website';
+
+const form = document.getElementById('feedback');
+const status = document.getElementById('status');
+const button = form.querySelector('button');
+
+function show(message, kind) {
+    status.textContent = message;
+    status.className = kind || '';
+}
+
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const title = form.title.value.trim();
+    const body = form.body.value.trim();
+    if (!title || !body) {
+        show('Title and description are required.', 'error');
+        return;
+    }
+    if (form.website.value) {
+        form.reset();
+        show('Thank you! Your feedback was sent.', 'ok');
+        return;
+    }
+
+    button.disabled = true;
+    show('Sending…');
+    let response;
+    try {
+        response = await fetch(ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: form.type.value, title, body, version: WEB_VERSION }),
+        });
+    } catch {
+        button.disabled = false;
+        show('Couldn’t reach the feedback service. Check your connection and try again.', 'error');
+        return;
+    }
+    const result = await response.json().catch(() => null);
+    button.disabled = false;
+    if (response.ok && result && result.ok === true) {
+        form.reset();
+        show('Thank you! Your feedback was sent.', 'ok');
+    } else {
+        show('Could not send feedback. Please try again.', 'error');
+    }
+});
+</script>
+</body>
+</html>
