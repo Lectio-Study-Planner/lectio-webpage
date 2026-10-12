@@ -20,6 +20,13 @@ GitHub Pages serves `main` from the repo root:
   origin (`https://lectio-study-planner.github.io`), so the form fails from a
   local preview or if the site moves to another domain: add the new origin to
   `ALLOWED_ORIGINS` in the function first.
+- `images/` holds the app screenshots the page shows, taken from the app
+  repo's `screenshots/` (git-ignored there). The Mac shots are the window cut
+  out of its backdrop (2720×1700 at +80+30) with its corners made transparent,
+  so the page's drop shadow follows them; iPhone and iPad shots are only
+  scaled down, and the page draws their bezels. All are WebP (`cwebp -q 86`),
+  plus `og-image.jpg` for link previews. In dark mode the hero and Progress
+  section swap to the dark shots (`<picture>` with `prefers-color-scheme`).
 - The icons (`icon-512.png`, `apple-touch-icon.png`, `favicon.png`) are the app
   icon scaled down with `sips -Z <size>`. Regenerate them if the app icon
   changes.
