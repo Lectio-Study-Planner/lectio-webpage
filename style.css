@@ -15,6 +15,7 @@
     --blue: #3478f6;
     --orange: #ff9500;
     --purple: #8e4ee8;
+    --teal: #30b0c7;
     --indigo: #5856d6;
     --red: #ff3b30;
 }
@@ -448,6 +449,56 @@ main {
     width: 22%;
 }
 
+/* Import */
+
+.imports {
+    text-align: center;
+}
+
+.imports .eyebrow {
+    justify-content: center;
+}
+
+.imports ul {
+    list-style: none;
+    margin: 3rem auto 0;
+    padding: 0;
+    max-width: 64rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    text-align: left;
+}
+
+.imports li {
+    padding: 1.6rem 1.5rem 1.75rem;
+    border-radius: 22px;
+    background: var(--surface);
+}
+
+.imports svg {
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    fill: none;
+    stroke: var(--teal);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.imports h3 {
+    margin: 1rem 0 0.4rem;
+    font-size: 1.2rem;
+    letter-spacing: -0.01em;
+}
+
+.imports li p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1rem;
+}
+
 /* And more */
 
 .more {
@@ -605,6 +656,11 @@ main {
         width: 82%;
         font-size: 0.85rem;
         text-align: left;
+    }
+
+    .imports ul {
+        grid-template-columns: 1fr;
+        margin-top: 2.5rem;
     }
 
     .more {
