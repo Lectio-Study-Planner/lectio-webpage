@@ -34,6 +34,15 @@ GitHub Pages serves `main` from the repo root:
 - The footer links to the Impressum and privacy policy in the public
   [lectio-legal-docs](https://github.com/Lectio-Study-Planner/lectio-legal-docs)
   repo. If those pages move, update the links here too.
-- When the app is live, replace the "Coming soon to the App Store" badge with
-  the official App Store badge linking to the app's listing.
+- The hero and the closing section link to the App Store listing,
+  <https://apps.apple.com/app/lectio-semester-planner/id6799411764>, which
+  sends each visitor to their own country's store. It is one listing for Mac,
+  iPhone and iPad. `images/app-store-badge.svg` is Apple's black "Download on
+  the App Store" badge, unaltered, from the
+  [App Store marketing guidelines](https://developer.apple.com/app-store/marketing/guidelines/).
+  It is kept here rather than loaded from Apple, so the page still loads
+  nothing from another site. Apple's rules for it: the black badge (the white
+  one only where a layout has a single badge), never modified, recoloured or
+  given a shadow, at least 40 px tall, and a quarter of its height kept clear
+  around it.
 - `.nojekyll` makes Pages serve the files exactly as committed.

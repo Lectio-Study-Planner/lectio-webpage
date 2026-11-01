@@ -177,23 +177,18 @@ h2 {
     margin: 2rem 0 0;
 }
 
+/* Apple's badge artwork, shown as it is: no shadow, filter or recolouring.
+   The radius only rounds the focus ring to the badge's corners. */
 .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.4rem;
-    border-radius: 999px;
-    background: var(--text);
-    color: var(--bg);
-    font-weight: 600;
-    font-size: 0.95rem;
+    display: inline-block;
+    vertical-align: top;
+    border-radius: 9px;
 }
 
-.badge svg {
-    width: 1.15rem;
-    height: 1.15rem;
-    fill: currentColor;
-    margin-top: -2px;
+.badge img {
+    display: block;
+    width: auto;
+    height: 54px;
 }
 
 .hero-shot {
@@ -551,7 +546,7 @@ main {
     padding: 9rem 0 7rem;
 }
 
-.closing img {
+.closing > img {
     display: block;
     margin: 0 auto 1rem;
     filter: drop-shadow(0 8px 20px var(--shadow));
