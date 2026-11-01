@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support – Lectio</title>
+<meta name="description" content="Help with Lectio, the semester planner: answers to common questions, the contact email, and a form to report a bug or request a feature.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="narrow">
+<nav class="back"><a href="./">← Lectio</a></nav>
+<h1>Support</h1>
+<p class="lede-left">Answers to the questions people ask most, and a form to report a bug or ask for a feature. You can also write to <a href="mailto:mateoas@icloud.com">mateoas@icloud.com</a>.</p>
+
+<h2 id="questions">Questions</h2>
+<div class="faq">
+<details>
+<summary>Do I need an account?</summary>
+<p>No. Without one, your semesters stay on this device. Sign in under Profile, with Apple, Google or an email address, to sync them across your Mac, iPhone and iPad and to add friends.</p>
+</details>
+<details>
+<summary>How do my semesters get to my other devices?</summary>
+<p>Sign in to the same account on each device, and every change syncs. A change made offline waits on the device and goes up once you’re back online. Your Moodle connection and the app’s settings stay on each device, so connect Moodle on every device you use it on.</p>
+</details>
+<details>
+<summary>How do I connect Moodle?</summary>
+<p>In Profile, choose Connect Moodle…, pick your university or enter your Moodle’s address, and sign in on your Moodle’s own page; Lectio never sees your password. If your university doesn’t allow that sign-in, choose Use a token instead and paste the token from your Moodle profile’s Preferences ▸ Security keys. The Moodle button on Semester then brings your courses’ material in, and Lectio checks linked courses for new material each time it opens.</p>
+</details>
+<details>
+<summary>How do I get my class timetable in?</summary>
+<p>Save it from your university’s portal or a calendar app as an .ics file, then open it in Lectio: share it to Lectio on iPhone and iPad, use Open With on the Mac, or choose New ▸ Import on the Schedule. Pick an example week, check each class’s course and kind, and Add.</p>
+</details>
+<details>
+<summary>I study at TU Darmstadt. Where is the TUCaN import?</summary>
+<p>Connect TU Darmstadt’s Moodle in Profile first: Progress then shows Import from TUCaN at its bottom left. You sign in on TU’s own pages, and Lectio shows every grade and credit it would take before anything is saved. A security key as your only second factor doesn’t work there; an authenticator app (TOTP) does.</p>
+</details>
+<details>
+<summary>My reminders don’t arrive.</summary>
+<p>Check that notifications are on for Lectio: on iPhone and iPad in Settings ▸ Notifications ▸ Lectio, on the Mac in System Settings ▸ Notifications ▸ Lectio. Items already tagged done never remind. A reminder added on another device reaches this one once Lectio has opened here.</p>
+</details>
+<details>
+<summary>What do my friends see?</summary>
+<p>Only your classes, and only as much of them as you choose under What Friends See, in Friends on the Schedule: which kinds of classes, and whether their names, rooms and notes show. Your attendance, readings, tasks, grades, credits and study time never leave your account. Friends find you by your username, and the … menu beside a friend or a request blocks or reports them.</p>
+</details>
+<details>
+<summary>How do I back up or share a semester?</summary>
+<p>Choose Export Semester… in the semester menu to save it as a .lectio.json file, and Import Semester… to bring one back, on any of your devices or a classmate’s. A single course works the same way, with Export Course….</p>
+</details>
+<details>
+<summary>How do I delete my account?</summary>
+<p>In Profile, open your account and choose Delete account… at the bottom. It deletes the account and everything stored with it: semesters, credit plan, shared tags, username and friends. Semesters kept on the device itself stay. You can also ask for it by email.</p>
+</details>
+<details>
+<summary>What does Lectio collect about me?</summary>
+<p>Nothing for analytics, ads or tracking. Without an account, your semesters never leave your device. Signed in, they are stored with your account on our servers (Supabase), so each device shows the same. Moodle and TUCaN are read straight from your university, never through us. The <a href="https://lectio-study-planner.github.io/lectio-legal-docs/datenschutzerklaerung.en.html">privacy policy</a> has the details.</p>
+</details>
+</div>
+
+<h2 id="send-feedback">Send Feedback</h2>
+<p class="lede-left">Found a bug or missing something? Tell us here. No account needed; the app has the same form under Profile ▸ Send Feedback.</p>
+
+<form id="feedback" novalidate>
+<fieldset class="segmented">
+<legend>Kind</legend>
+<label><input type="radio" name="type" value="bug" checked> Bug report</label>
+<label><input type="radio" name="type" value="feature"> Feature request</label>
+</fieldset>
+
+<label for="title">Title</label>
+<input id="title" name="title" type="text" maxlength="200" autocomplete="off" required>
+
+<label for="body">Description</label>
+<textarea id="body" name="body" rows="8" required></textarea>
+<p class="hint">Your report goes to Lectio’s private issue tracker. Leave out anything personal you don’t want us to read; to hear back, write to us by email instead.</p>
+
+<!-- Left empty by people; bots that fill every field are dropped. -->
+<div class="trap" aria-hidden="true">
+<label for="website">Website</label>
+<input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+</div>
+
+<p id="status" role="status" aria-live="polite"></p>
+<button type="submit">Send</button>
+</form>
+</main>
+
+<footer>
+<p>© 2026 Lectio</p>
+<p>
+<a href="https://lectio-study-planner.github.io/lectio-legal-docs/impressum.en.html">Legal Notice</a>
+<a href="https://lectio-study-planner.github.io/lectio-legal-docs/datenschutzerklaerung.en.html">Privacy Policy</a>
+</p>
+</footer>
+
+<script>
+// Posts to the same endpoint and contract as the app's FeedbackClient
+// (Lectio-Study-Planner/lectio-feedback): { type, title, body, version }.
+// The function writes `version` into the issue footer as `_Lectio v<version>_`.
+const ENDPOINT = 'https://lectio-opal.vercel.app/api/feedback';
+const WEB_VERSION = '? via website';
+
+const form = document.getElementById('feedback');
+const status = document.getElementById('status');
+const button = form.querySelector('button');
+
+function show(message, kind) {
+    status.textContent = message;
+    status.className = kind || '';
+}
+
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const title = form.title.value.trim();
+    const body = form.body.value.trim();
+    if (!title || !body) {
+        show('Title and description are required.', 'error');
+        return;
+    }
+    if (form.website.value) {
+        form.reset();
+        show('Thank you! Your feedback was sent.', 'ok');
+        return;
+    }
+
+    button.disabled = true;
+    show('Sending…');
+    let response;
+    try {
+        response = await fetch(ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: form.type.value, title, body, version: WEB_VERSION }),
+        });
+    } catch {
+        button.disabled = false;
+        show('Couldn’t reach the feedback service. Check your connection and try again.', 'error');
+        return;
+    }
+    const result = await response.json().catch(() => null);
+    button.disabled = false;
+    if (response.ok && result && result.ok === true) {
+        form.reset();
+        show('Thank you! Your feedback was sent.', 'ok');
+    } else {
+        show('Could not send feedback. Please try again.', 'error');
+    }
+});
+</script>
+</body>
+</html>

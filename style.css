@@ -701,7 +701,7 @@ footer a:hover {
     color: var(--text);
 }
 
-/* Feedback page */
+/* Support page: the questions, then the feedback form */
 
 main.narrow {
     max-width: 36rem;
@@ -716,12 +716,56 @@ nav.back {
 
 main.narrow h1 {
     font-size: 2.2rem;
-    margin-bottom: 0.5rem;
+    margin: 0 0 0.5rem;
+}
+
+main.narrow h2 {
+    font-size: 1.5rem;
+    margin: 3rem 0 1rem;
 }
 
 .lede-left {
     color: var(--muted);
-    margin: 0 0 2rem;
+    margin: 0 0 1.5rem;
+}
+
+.faq details {
+    border-bottom: 1px solid var(--rule);
+}
+
+.faq details:first-child {
+    border-top: 1px solid var(--rule);
+}
+
+.faq summary {
+    cursor: pointer;
+    padding: 0.9rem 1.75rem 0.9rem 0;
+    font-weight: 600;
+    list-style: none;
+    position: relative;
+}
+
+.faq summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq summary::after {
+    content: "+";
+    position: absolute;
+    right: 0.25rem;
+    top: 0.8rem;
+    color: var(--muted);
+    font-weight: 400;
+    font-size: 1.2rem;
+}
+
+.faq details[open] summary::after {
+    content: "−";
+}
+
+.faq details p {
+    margin: 0 0 1.1rem;
+    color: var(--muted);
 }
 
 form label {
@@ -751,6 +795,12 @@ form textarea:focus {
 
 form textarea {
     resize: vertical;
+}
+
+.hint {
+    margin: 0.5rem 0 0;
+    font-size: 0.85rem;
+    color: var(--muted);
 }
 
 .segmented {
