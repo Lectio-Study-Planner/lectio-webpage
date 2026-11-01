@@ -1,25 +1,41 @@
 # Lectio website
 
-The marketing page for the Lectio semester planner on macOS and iOS: one
-static HTML page and a stylesheet, no build step.
+The page for the Lectio semester planner on macOS and iOS: a landing page,
+a support page with the questions people ask and the feedback form, and
+their stylesheet. Static HTML, no build step.
 
 ## Published at
 
 GitHub Pages serves `main` from the repo root:
 <https://lectio-study-planner.github.io/lectio-webpage/>
 
+| Page | Address | Used as |
+|---|---|---|
+| `index.html` | `…/lectio-webpage/` | Marketing URL in App Store Connect |
+| `support.html` | `…/lectio-webpage/support.html` | Support URL in App Store Connect, and the app repo's README |
+| `feedback.html` | `…/lectio-webpage/feedback.html` | Forwards to the support page's form |
+
+If a page is renamed or the site moves, keep the old address answering, as
+`feedback.html` does: Pages has no redirects, so it is a page that forwards
+itself (`<meta http-equiv="refresh">`).
+
 ## Editing
 
-- `index.html` is the page, `style.css` its styles. Open `index.html` in a
-  browser to preview; there is nothing to install.
-- `feedback.html` is the feedback form. It posts to the same endpoint and
-  contract as the app's Profile ▸ Send Feedback…, documented in
+- `index.html` is the landing page, `style.css` the styles of every page.
+  Open a page in a browser to preview it; there is nothing to install.
+- `support.html` holds the questions people ask most, the contact email (the
+  one in the Impressum) and the feedback form. Each answer names the app's
+  own menus and buttons (Profile ▸ Connect Moodle…, Export Semester…): when
+  the app renames one or changes what it does, change the answer too. A
+  question people keep asking gets an answer here.
+- The form posts to the same endpoint and contract as the app's Profile ▸
+  Send Feedback…, documented in
   [lectio-feedback](https://github.com/Lectio-Study-Planner/lectio-feedback),
-  and the report becomes an issue in the `lectio` repo. It sends the version
-  as `? via website`. The function only answers browsers from this site's
-  origin (`https://lectio-study-planner.github.io`), so the form fails from a
-  local preview or if the site moves to another domain: add the new origin to
-  `ALLOWED_ORIGINS` in the function first.
+  and the report becomes an issue in the private `lectio` repo. It sends the
+  version as `? via website`. The function only answers browsers from this
+  site's origin (`https://lectio-study-planner.github.io`), so the form fails
+  from a local preview or if the site moves to another domain: add the new
+  origin to `ALLOWED_ORIGINS` in the function first.
 - `images/` holds the app screenshots the page shows, taken from the app
   app on sample data (four semesters, made-up friends). The Mac shots are the
   window itself at 1360×850 points, captured with its transparent corners
