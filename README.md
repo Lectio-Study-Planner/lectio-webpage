@@ -45,4 +45,7 @@ GitHub Pages serves `main` from the repo root:
   one only where a layout has a single badge), never modified, recoloured or
   given a shadow, at least 40 px tall, and a quarter of its height kept clear
   around it.
+- The `apple-itunes-app` meta tag in `index.html` gives Safari on iPhone and
+  iPad its Smart App Banner: Get, or Open where Lectio is installed. It names
+  the listing's id, `6799411764`.
 - `.nojekyll` makes Pages serve the files exactly as committed.
