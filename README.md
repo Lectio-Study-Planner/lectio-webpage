@@ -25,9 +25,17 @@ GitHub Pages serves `main` from the repo root:
   window itself at 1360×850 points, captured with its transparent corners
   (`screencapture -o -l <window id>`), so the page's drop shadow follows
   them; `mac-edit` is the Edit sheet cut out of such a window. iPhone and
-  iPad shots are only scaled down, and the page draws their bezels. All are WebP (`cwebp -q 86`),
-  plus `og-image.jpg` for link previews. In dark mode the hero and Progress
-  section swap to the dark shots (`<picture>` with `prefers-color-scheme`).
+  iPad shots are only scaled down, and the page draws their bezels. All are WebP (`cwebp -q 86`).
+  In dark mode the hero and Progress section swap to the dark shots
+  (`<picture>` with `prefers-color-scheme`).
+- `images/og-preview.jpg` is the link preview chats and social sites show:
+  1200 × 630, the shape they crop to. It is a small HTML card, the app icon,
+  the hero's headline and "Lectio · Free for Mac, iPhone and iPad" on the
+  left and `iphone-semester.webp` in the page's bezel on the right, rendered
+  at 2× in a browser and scaled down to a JPEG (quality 88). Keep it under
+  300 KB, which WhatsApp needs for a large preview. Apps cache a preview by
+  the image's address, so a redrawn one gets a new file name, and the
+  `og:image` tag in `index.html` follows it.
 - The icons (`icon-512.png`, `apple-touch-icon.png`, `favicon.png`) are the app
   icon scaled down with `sips -Z <size>`. Regenerate them if the app icon
   changes.
