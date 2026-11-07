@@ -735,7 +735,7 @@ main {
     font-weight: 600;
     white-space: nowrap;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background 0.3s, filter 0.2s, transform 0.2s var(--ease-pop);
 }
 
 .tag:focus-visible {
@@ -1270,6 +1270,7 @@ main {
     font-weight: 600;
     white-space: nowrap;
     cursor: pointer;
+    transition: filter 0.2s, transform 0.2s var(--ease-pop);
 }
 
 .focus-toggle:focus-visible {
@@ -1447,6 +1448,7 @@ main {
     color: var(--muted);
     font: inherit;
     cursor: pointer;
+    transition: color 0.2s, transform 0.2s var(--ease-pop);
 }
 
 .day-bars button:focus-visible {
@@ -1675,6 +1677,7 @@ main {
     font-size: 0.88rem;
     font-weight: 600;
     cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s var(--ease-pop);
 }
 
 .friend-check:focus-visible {
@@ -1942,6 +1945,7 @@ main {
     font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
+    transition: background 0.2s, color 0.2s, transform 0.2s var(--ease-pop);
 }
 
 .device-picker button[aria-pressed="true"] {
@@ -2485,6 +2489,49 @@ main {
 .js .reveal.shown {
     opacity: 1;
     transform: none;
+}
+
+/* The drawings' controls answer the pointer: they lighten under it and
+   give a little as they are pressed. */
+
+@media (hover: hover) {
+    button.tag:hover,
+    .focus-toggle:hover {
+        filter: brightness(1.08);
+    }
+
+    .friend-check:hover {
+        border-color: color-mix(in srgb, var(--c) 45%, var(--rule));
+        background: var(--surface);
+    }
+
+    .day-bars button:hover {
+        color: var(--text);
+    }
+
+    .device-picker button:hover {
+        color: var(--text);
+    }
+
+    .device-picker button[aria-pressed="false"]:hover {
+        background: color-mix(in srgb, var(--surface) 60%, transparent);
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    button.tag:active,
+    .friend-check:active,
+    .device-picker button:active {
+        transform: scale(0.95);
+    }
+
+    .day-bars button:active {
+        transform: scale(0.92);
+    }
+
+    .focus-toggle:active {
+        transform: translateX(-50%) scale(0.95);
+    }
 }
 
 /* Side by side, a section's drawing follows its words a beat later. */
