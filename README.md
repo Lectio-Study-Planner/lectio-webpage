@@ -48,8 +48,10 @@ itself (`<meta http-equiv="refresh">`).
   tour's pages.
 - `scenes.js` moves them. The HTML is each drawing's finished frame, so
   without JavaScript, or under Reduce Motion, that is what shows. A scene
-  (`scene()`) rewinds its drawing when it first comes on screen, plays it,
-  and stops its loops while it is off screen. Controls a visitor can use
+  (`scene()`) rewinds its drawing as the page loads (`rewind`), so its
+  section fades in on the first frame rather than flashing the last, plays
+  it once it is mostly on screen, and stops its loops while it is off
+  screen. Controls a visitor can use
   (tags, friend checks, day bars, Focus Clock, the device picker) work under
   Reduce Motion too. The script also fades sections in and tints the page's
   glow with the colour of the section on screen.

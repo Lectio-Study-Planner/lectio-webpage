@@ -3,8 +3,9 @@
 //
 // The HTML is each drawing's finished frame: without JavaScript, or under
 // Reduce Motion, that frame is what shows and nothing moves. A scene rewinds
-// the drawing when it starts, plays it, and stops its loops while it is off
-// screen, so the page does no work for what nobody sees.
+// the drawing as the page loads, so its section fades in on the first frame
+// rather than the last, plays it once it is on screen, and stops its loops
+// while it is off screen, so the page does no work for what nobody sees.
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const canObserve = 'IntersectionObserver' in window;
@@ -27,13 +28,15 @@ if (canObserve) {
     document.querySelectorAll('.reveal').forEach((el) => el.classList.add('shown'));
 }
 
-// Registers a scene. `setup(element)` returns `{ start, pause, resume }`:
+// Registers a scene. `setup(element)` returns `{ rewind, start, pause,
+// resume }`: rewind runs at once and puts the drawing on its first frame,
 // start runs the first time the element is mostly on screen, pause when it
 // leaves, resume when it comes back. Nothing runs under Reduce Motion.
 function scene(selector, setup) {
     const element = document.querySelector(selector);
     if (!element || reduceMotion || !canObserve) return;
     const play = setup(element);
+    play.rewind?.();
     let started = false;
     new IntersectionObserver((entries) => {
         for (const entry of entries) {
@@ -95,8 +98,8 @@ scene('.weeks', (weeks) => {
     const cells = [...weeks.querySelectorAll('li')];
     const finished = cells.map((cell) => cell.className);
     return {
+        rewind: () => cells.forEach((cell) => cell.classList.remove('done', 'now', 'pulse')),
         async start() {
-            cells.forEach((cell) => cell.classList.remove('done', 'now', 'pulse'));
             await sleep(300);
             for (const [index, cell] of cells.entries()) {
                 if (!finished[index]) continue;
@@ -174,11 +177,11 @@ scene('.weeks', (weeks) => {
         if (autoplay) timer = setInterval(step, 1400);
     };
     scene('.course', () => ({
-        start() {
+        rewind() {
             items.forEach((item) => { item.tag = 0; draw(item); });
             drawRing();
-            run();
         },
+        start: run,
         resume: run,
         pause: () => clearInterval(timer),
     }));
@@ -242,6 +245,7 @@ scene('.schedule-week', (card) => {
     });
     return {
         ...drawing,
+        rewind: () => classes.forEach((el) => el.classList.add('hidden')),
         start() {
             built = false;
             drawing.start();
@@ -264,10 +268,13 @@ scene('.notify', (visual) => {
         status.textContent = name;
         status.style.setProperty('--c', `var(--tag-${colour})`);
     };
-    return loop(async (stopped) => {
+    const rewind = () => {
         note.classList.add('away');
         action.classList.remove('press');
         setStatus('pending', 'red');
+    };
+    return { rewind, ...loop(async (stopped) => {
+        rewind();
         await sleep(900);
         if (stopped()) return;
         note.classList.remove('away');
@@ -282,7 +289,7 @@ scene('.notify', (visual) => {
         status.classList.add('bump');
         await sleep(2600);
         status.classList.remove('bump');
-    });
+    }) };
 });
 
 // Friends: ticking a friend lays their classes beside yours, in a lane of
@@ -406,14 +413,15 @@ scene('.notify', (visual) => {
         frame = requestAnimationFrame(tick);
     };
     scene('.timer-card', () => ({
-        start() {
+        rewind() {
             current = 'focus';
             block = 1;
             played = 0;
             popup.classList.remove('in');
             dots.forEach((dot, index) => dot.classList.toggle('on', index < block));
-            run();
+            show(phases.focus.seconds, phases.focus);
         },
+        start: run,
         resume: run,
         pause() {
             cancelAnimationFrame(frame);
@@ -467,13 +475,14 @@ scene('.notify', (visual) => {
     }));
 
     scene('.study-card', () => ({
-        async start() {
-            picked = -1;
+        rewind() {
             segments.forEach((segment) => {
                 segment.style.strokeDasharray = `0 ${circumference}`;
                 segment.style.strokeDashoffset = 0;
             });
             bars.classList.add('grow-from-zero');
+        },
+        async start() {
             await sleep(150);
             draw();
             bars.classList.remove('grow-from-zero');
@@ -489,11 +498,13 @@ scene('.progress-card', (card) => {
     const band = card.querySelector('.gpa-band');
     const bar = card.querySelector('.credit-bar');
     return {
-        async start() {
+        rewind() {
             bar.classList.add('empty');
             credits.textContent = '0';
             gpa.textContent = '4.0';
             band.textContent = 'GPA';
+        },
+        async start() {
             await sleep(200);
             bar.classList.remove('empty');
             count(0, 96, 1500, (value) => { credits.textContent = Math.round(value); });
@@ -514,7 +525,7 @@ scene('.moodle-sync', (sync) => {
         badge.textContent = n;
         badge.classList.toggle('none', n === 0);
     };
-    return loop(async (stopped) => {
+    const rewind = () => {
         found.forEach((li) => {
             li.classList.remove('added');
             li.querySelector('.check').classList.remove('on');
@@ -522,6 +533,9 @@ scene('.moodle-sync', (sync) => {
         incoming.forEach((li) => li.classList.add('waiting'));
         incoming.forEach((li) => li.classList.remove('arrive'));
         setBadge(found.length);
+    };
+    return { rewind, ...loop(async (stopped) => {
+        rewind();
         await sleep(900);
         for (const li of found) {
             if (stopped()) return;
@@ -538,7 +552,7 @@ scene('.moodle-sync', (sync) => {
             await sleep(450);
         }
         await sleep(3200);
-    });
+    }) };
 });
 
 // And more: the Dynamic Island opens into the Live Activity and closes, and
