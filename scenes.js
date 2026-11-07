@@ -607,3 +607,19 @@ scene('.system-pieces', (pieces) => {
         show(shapes[(shapes.indexOf(device.dataset.shape) + 1) % shapes.length]);
     }));
 }
+
+// The page's glow: the colour of the eyebrow of the section crossing the
+// middle of the screen, and none over the hero and the end of the page.
+if (canObserve) {
+    const root = document.documentElement;
+    const sections = document.querySelectorAll('.hero, main > section');
+    const observer = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            const eyebrow = entry.target.querySelector('.eyebrow');
+            const colour = eyebrow ? getComputedStyle(eyebrow).getPropertyValue('--c').trim() : '';
+            root.style.setProperty('--tint', colour || 'transparent');
+        }
+    }, { rootMargin: '-50% 0px -50% 0px' });
+    sections.forEach((section) => observer.observe(section));
+}

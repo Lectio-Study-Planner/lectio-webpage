@@ -105,6 +105,28 @@ h2 {
     font-weight: 700;
 }
 
+/* The page's glow takes the colour of the section in the middle of the
+   screen (scenes.js sets --tint from its eyebrow). */
+
+@property --tint {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: transparent;
+}
+
+html {
+    transition: --tint 1.2s ease;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(70% 50% at 50% 0%, color-mix(in srgb, var(--tint) 14%, transparent), transparent 75%);
+}
+
 /* Top bar */
 
 .topbar {
