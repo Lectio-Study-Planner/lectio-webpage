@@ -1883,6 +1883,294 @@ main {
     stroke-linejoin: round;
 }
 
+/* One app: one drawn device that takes the shape of each platform's
+   layout. Every size is in em of --u, so the stage scales with its width. */
+
+.device-picker {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.3rem;
+    margin: 0 0 1.5rem;
+}
+
+.device-picker button {
+    border: 0;
+    border-radius: 999px;
+    padding: 0.35rem 0.9rem;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.device-picker button[aria-pressed="true"] {
+    background: var(--surface);
+    color: var(--text);
+}
+
+.device-picker button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.device-stage {
+    container-type: inline-size;
+    display: grid;
+    place-items: center;
+}
+
+.device {
+    --u: min(1rem, 2.8cqw);
+    --top: 1.4em;
+    --tab: 0em;
+    --rail: 0em;
+    --side: 7em;
+    --list: 10em;
+    --detail: 1fr;
+    font-size: var(--u);
+    width: 34em;
+    height: 21.25em;
+    margin-block: 0.4em calc(23em - 21.25em);
+    display: grid;
+    grid-template-rows: var(--top) 1fr var(--tab);
+    grid-template-columns: var(--rail) var(--side) var(--list) var(--detail);
+    overflow: hidden;
+    border: 0.45em solid var(--bezel);
+    border-radius: 1.2em;
+    background: var(--card);
+    box-shadow: 0 24px 48px var(--shadow), 0 2px 6px var(--shadow);
+    transition-property: width, height, margin, border-radius, grid-template-columns, grid-template-rows;
+    transition-duration: 0.8s;
+    transition-timing-function: cubic-bezier(0.4, 0.1, 0.2, 1);
+}
+
+.device[data-shape="ipad"] {
+    --top: 2em;
+    --side: 0em;
+    --list: 7.5em;
+    width: 16em;
+    height: 21.5em;
+    margin-block: 0.4em calc(23em - 21.5em);
+    border-radius: 1.6em;
+}
+
+.device[data-shape="iphone"] {
+    --top: 2.6em;
+    --tab: 2.6em;
+    --side: 0em;
+    --list: 1fr;
+    --detail: 0em;
+    width: 10em;
+    height: 21.5em;
+    margin-block: 0.4em calc(23em - 21.5em);
+    border-radius: 2em;
+}
+
+.device[data-shape="sideways"] {
+    --top: 1.8em;
+    --rail: 2.4em;
+    --side: 0em;
+    --list: 1fr;
+    --detail: 0em;
+    width: 21.5em;
+    height: 10em;
+    margin-block: 6.5em 6.5em;
+    border-radius: 2em;
+}
+
+.device > span {
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    transition: opacity 0.4s;
+}
+
+.device i,
+.device b,
+.device s {
+    display: block;
+    text-decoration: none;
+}
+
+.d-top {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    padding: 0 0.7em;
+    border-bottom: 1px solid var(--rule);
+}
+
+.d-lights {
+    display: flex;
+    gap: 0.25em;
+}
+
+.d-lights i {
+    width: 0.45em;
+    height: 0.45em;
+    border-radius: 50%;
+    background: #ff5f57;
+}
+
+.d-lights i:nth-child(2) { background: #febc2e; }
+.d-lights i:nth-child(3) { background: #28c840; }
+
+.d-title {
+    font-size: 0.6em;
+    font-weight: 700;
+}
+
+.d-tabs {
+    display: flex;
+    gap: 0.2em;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.2em;
+    border-radius: 999px;
+    background: var(--surface);
+}
+
+.d-tabs i {
+    width: 1.4em;
+    height: 0.5em;
+    border-radius: 999px;
+    background: var(--track);
+}
+
+.d-tabs i:first-child,
+.d-rail i:first-child,
+.d-tab i:first-child {
+    background: var(--accent);
+}
+
+.device[data-shape="mac"] .d-tabs,
+.device:not([data-shape="mac"]) .d-lights,
+.device[data-shape="iphone"] .d-tabs,
+.device[data-shape="sideways"] .d-tabs {
+    display: none;
+}
+
+.device[data-shape="ipad"] .d-title {
+    display: none;
+}
+
+.d-rail {
+    grid-row: 2 / 4;
+    grid-column: 1;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 0.6em;
+    background: var(--surface);
+}
+
+.d-rail i,
+.d-tab i {
+    width: 0.9em;
+    height: 0.9em;
+    border-radius: 0.3em;
+    background: var(--track);
+}
+
+.d-side {
+    grid-row: 2 / 4;
+    grid-column: 2;
+    display: grid;
+    align-content: start;
+    gap: 0.5em;
+    padding: 0.7em 0.6em;
+    background: var(--surface);
+}
+
+.d-side i {
+    height: 0.55em;
+    border-radius: 0.3em;
+    background: var(--track);
+}
+
+.d-side i:first-child {
+    background: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.d-list {
+    grid-row: 2;
+    grid-column: 3;
+    display: grid;
+    align-content: start;
+    gap: 0.45em;
+    padding: 0.6em;
+    border-right: 1px solid var(--rule);
+}
+
+.d-row {
+    display: grid;
+    grid-template-columns: 0.6em 1fr;
+    align-items: center;
+    gap: 0.2em 0.45em;
+    padding: 0.5em;
+    border-radius: 0.6em;
+    background: var(--surface);
+}
+
+.d-row i {
+    grid-row: span 2;
+    width: 0.6em;
+    height: 0.6em;
+    border-radius: 50%;
+    background: var(--c);
+}
+
+.d-row b {
+    height: 0.4em;
+    width: 70%;
+    border-radius: 0.2em;
+    background: var(--track);
+}
+
+.d-row s {
+    height: 0.25em;
+    border-radius: 0.2em;
+    background: linear-gradient(90deg, var(--c) var(--p), var(--track) var(--p));
+}
+
+.d-detail {
+    grid-row: 2;
+    grid-column: 4;
+    display: grid;
+    align-content: start;
+    gap: 0.5em;
+    padding: 0.7em;
+}
+
+.d-detail i {
+    height: 0.55em;
+    border-radius: 0.3em;
+    background: var(--track);
+}
+
+.d-detail i:first-child {
+    height: 0.3em;
+    background: var(--ads);
+}
+
+.d-detail i:nth-child(odd) {
+    width: 80%;
+}
+
+.d-tab {
+    grid-row: 3;
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 0.6em;
+    border-top: 1px solid var(--rule);
+}
+
 /* And more: small working pieces of the system features */
 
 .system-pieces {

@@ -578,3 +578,32 @@ scene('.system-pieces', (pieces) => {
         },
     };
 });
+
+// One app: the device takes each platform's shape in turn until a visitor
+// picks one.
+{
+    const device = document.querySelector('.device');
+    const buttons = [...document.querySelectorAll('.device-picker button')];
+    const labels = {
+        mac: 'Lectio on the Mac: a sidebar of sections, the course list and the open course',
+        ipad: 'Lectio on iPad: the tab bar at the top, the course list beside the open course',
+        iphone: 'Lectio on iPhone: the course list, with the tab bar at the bottom',
+        sideways: 'Lectio on an iPhone held sideways: a rail of sections down the side',
+    };
+    const show = (shape) => {
+        device.dataset.shape = shape;
+        device.setAttribute('aria-label', labels[shape]);
+        buttons.forEach((button) => button.setAttribute('aria-pressed', button.dataset.shape === shape));
+    };
+    let autoplay = true;
+    buttons.forEach((button) => button.addEventListener('click', () => {
+        autoplay = false;
+        show(button.dataset.shape);
+    }));
+    scene('.device-stage', () => loop(async (stopped) => {
+        await sleep(2600);
+        if (stopped() || !autoplay) return;
+        const shapes = buttons.map((button) => button.dataset.shape);
+        show(shapes[(shapes.indexOf(device.dataset.shape) + 1) % shapes.length]);
+    }));
+}
