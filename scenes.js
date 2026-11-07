@@ -205,3 +205,51 @@ scene('.upnext', (card) => {
         await sleep(1800);
     });
 });
+
+// Schedule: the week's classes drop in, the deadlines draw their lines, then
+// a new class is drawn on an empty spot and the New sheet opens on it.
+scene('.schedule-week', (card) => {
+    const classes = [...card.querySelectorAll('.cls, .due-mark')];
+    const drawn = card.querySelector('.drawn-class');
+    const sheet = card.querySelector('.new-sheet');
+    let built = false;
+    const drawing = loop(async (stopped) => {
+        drawn.classList.remove('in', 'grown');
+        sheet.classList.remove('in');
+        if (!built) {
+            classes.forEach((el) => el.classList.add('hidden'));
+            await sleep(300);
+            for (const el of classes) {
+                if (stopped()) return;
+                el.classList.remove('hidden');
+                await sleep(130);
+            }
+            built = true;
+        }
+        await sleep(1400);
+        if (stopped()) return;
+        drawn.classList.add('in');
+        await sleep(50);
+        drawn.classList.add('grown');
+        await sleep(1300);
+        if (stopped()) return;
+        sheet.classList.add('in');
+        await sleep(2800);
+        if (stopped()) return;
+        sheet.classList.remove('in');
+        drawn.classList.remove('in', 'grown');
+        await sleep(1600);
+    });
+    return {
+        ...drawing,
+        start() {
+            built = false;
+            drawing.start();
+        },
+        pause() {
+            drawing.pause();
+            classes.forEach((el) => el.classList.remove('hidden'));
+            built = true;
+        },
+    };
+});
