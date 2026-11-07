@@ -422,3 +422,61 @@ scene('.notify', (visual) => {
         },
     }));
 }
+
+// Study time: the ring sweeps in course by course and the day bars rise. A
+// tapped day narrows the ring to that day, as on the Study Time screen; taps
+// work under Reduce Motion too.
+{
+    const card = document.querySelector('.study-card');
+    const segments = [...card.querySelectorAll('.segment')];
+    const total = card.querySelector('.donut-face b');
+    const label = card.querySelector('.donut-face small');
+    const bars = card.querySelector('.day-bars');
+    const days = [...bars.querySelectorAll('button')];
+    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    // Minutes per course and day, Monday first, in the legend's order.
+    const minutes = [
+        [40, 55, 20, 0, 0, 0, 0],
+        [20, 0, 45, 0, 0, 0, 0],
+        [0, 25, 0, 0, 0, 0, 0],
+        [15, 0, 0, 0, 0, 0, 0],
+    ];
+    const circumference = 389.56;
+    const gap = 3;
+    const hoursMinutes = (m) => (m >= 60 ? `${Math.floor(m / 60)}h ${m % 60}m` : `${m}m`);
+    let picked = -1;
+
+    const draw = () => {
+        const values = minutes.map((row) => (picked < 0 ? row.reduce((a, b) => a + b, 0) : row[picked]));
+        const sum = values.reduce((a, b) => a + b, 0);
+        let offset = 0;
+        segments.forEach((segment, index) => {
+            const length = sum ? (values[index] / sum) * circumference : 0;
+            segment.style.strokeDasharray = `${Math.max(0, length - gap)} ${circumference}`;
+            segment.style.strokeDashoffset = -offset;
+            offset += length;
+        });
+        total.textContent = hoursMinutes(sum);
+        label.textContent = picked < 0 ? 'This week' : dayNames[picked];
+        bars.classList.toggle('picked', picked >= 0);
+        days.forEach((day, index) => day.setAttribute('aria-pressed', index === picked));
+    };
+    days.forEach((day, index) => day.addEventListener('click', () => {
+        picked = picked === index ? -1 : index;
+        draw();
+    }));
+
+    scene('.study-card', () => ({
+        async start() {
+            picked = -1;
+            segments.forEach((segment) => {
+                segment.style.strokeDasharray = `0 ${circumference}`;
+                segment.style.strokeDashoffset = 0;
+            });
+            bars.classList.add('grow-from-zero');
+            await sleep(150);
+            draw();
+            bars.classList.remove('grow-from-zero');
+        },
+    }));
+}

@@ -480,21 +480,6 @@ main {
     right: 0;
 }
 
-.pair {
-    display: flex;
-    justify-content: center;
-    gap: 6%;
-}
-
-.pair .phone {
-    width: 42%;
-    max-width: 18rem;
-}
-
-.pair .phone:last-child {
-    margin-top: 12%;
-}
-
 /* Drawn cards: pieces of the app's screens in its own colours */
 
 .card {
@@ -1136,9 +1121,32 @@ main {
 /* Timer: the pomodoro card. Focus Clock turns it into the dark, large focus
    clock; the phase-end pop-up asks what next when a block runs out. */
 
-.pair .timer-card {
-    width: 50%;
-    max-width: 20rem;
+/* The timer and the week's study time side by side, or one above the
+   other where the column is narrow. */
+.timer-pair {
+    container-type: inline-size;
+}
+
+.timer-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 1rem;
+}
+
+.timer-cards .study-card {
+    margin-top: 3rem;
+}
+
+@container (max-width: 30rem) {
+    .timer-cards {
+        grid-template-columns: minmax(0, 20rem);
+        justify-content: center;
+    }
+
+    .timer-cards .study-card {
+        margin-top: 0;
+    }
 }
 
 .timer-card {
@@ -1327,6 +1335,134 @@ main {
 .phase-end-button.press {
     transform: scale(0.95);
     filter: brightness(0.9);
+}
+
+/* Study time: the week by course, and its days */
+
+.study-card {
+    padding: 0.9rem 1rem 1rem;
+}
+
+.study-card .card-title {
+    margin: 0 0 0.6rem;
+}
+
+.donut {
+    position: relative;
+    width: 9.5rem;
+    margin: 0 auto;
+    aspect-ratio: 1;
+}
+
+.donut svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.donut circle {
+    fill: none;
+    stroke-width: 18;
+}
+
+.donut .segment {
+    transition: stroke-dasharray 0.8s cubic-bezier(0.3, 0.7, 0.2, 1),
+        stroke-dashoffset 0.8s cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+
+.donut-face {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    margin: 0;
+    text-align: center;
+}
+
+.donut-face b {
+    font-size: 1.2rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.donut-face small {
+    color: var(--muted);
+    font-size: 0.72rem;
+}
+
+.study-legend {
+    display: grid;
+    gap: 0.35rem;
+    margin: 0.9rem 0 0 !important;
+    font-size: 0.82rem;
+}
+
+.study-legend li {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.study-legend li span:nth-child(2) {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.study-legend li span:last-child {
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.day-bars {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    height: 6rem;
+    margin-top: 1rem;
+}
+
+.day-bars button {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: 4px;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font: inherit;
+    cursor: pointer;
+}
+
+.day-bars button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+.day-bars .bar {
+    align-self: end;
+    height: calc(var(--h) * 100%);
+    min-height: 3px;
+    border-radius: 5px 5px 2px 2px;
+    background: var(--accent);
+    transition: height 0.8s cubic-bezier(0.3, 0.7, 0.2, 1), opacity 0.3s;
+}
+
+.day-bars.picked button[aria-pressed="false"] .bar {
+    opacity: 0.3;
+}
+
+.day-bars small {
+    font-size: 0.68rem;
+    font-weight: 600;
+}
+
+.day-bars.grow-from-zero .bar {
+    height: 3px;
 }
 
 /* The Mac's mini player: a timer chip in the corner of the screen. It waits

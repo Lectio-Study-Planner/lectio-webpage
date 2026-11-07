@@ -222,7 +222,8 @@
 <h2>Focus. Then see<br>where the time went.</h2>
 <p>Pomodoro, stopwatch or a manual log, counted toward each course along with the classes you attend.</p>
 </div>
-<div class="visual pair reveal">
+<div class="visual timer-pair reveal">
+<div class="timer-cards">
 <div class="card timer-card">
 <div role="img" aria-label="The pomodoro timer: 18 minutes 42 seconds left of a focus block for Linear Algebra">
 <div aria-hidden="true">
@@ -243,8 +244,20 @@
 </div>
 <button class="focus-toggle" type="button" aria-pressed="false">Focus Clock</button>
 </div>
-<div class="phone">
-<div class="bezel"><img src="images/iphone-study-time.webp" width="660" height="1435" alt="Lectio on iPhone: today's study time by course, above the pomodoro timer" loading="lazy"></div>
+<div class="card study-card">
+<p class="card-title">This Week</p>
+<div class="donut" role="img" aria-label="3 hours 40 minutes studied this week: Algorithms and Data Structures 1 hour 55 minutes, Linear Algebra 1 hour 5 minutes, Databases 25 minutes, free study 15 minutes">
+<svg viewBox="0 0 160 160" aria-hidden="true"><circle class="ring-track" cx="80" cy="80" r="62"/><circle class="segment" cx="80" cy="80" r="62" style="stroke: var(--ads)" stroke-dasharray="200.63 389.56" stroke-dashoffset="0"/><circle class="segment" cx="80" cy="80" r="62" style="stroke: var(--linalg)" stroke-dasharray="112.1 389.56" stroke-dashoffset="-203.63"/><circle class="segment" cx="80" cy="80" r="62" style="stroke: var(--databases)" stroke-dasharray="41.27 389.56" stroke-dashoffset="-318.73"/><circle class="segment" cx="80" cy="80" r="62" style="stroke: var(--free-study)" stroke-dasharray="23.56 389.56" stroke-dashoffset="-363.0"/></svg>
+<p class="donut-face" aria-hidden="true"><b>3h 40m</b><small>This week</small></p>
+</div>
+<ul class="study-legend" aria-hidden="true">
+<li style="--c: var(--ads)"><span class="dot"></span><span>Algorithms and Data Structures</span><span>1h 55m</span></li>
+<li style="--c: var(--linalg)"><span class="dot"></span><span>Linear Algebra</span><span>1h 5m</span></li>
+<li style="--c: var(--databases)"><span class="dot"></span><span>Databases</span><span>25m</span></li>
+<li style="--c: var(--free-study)"><span class="dot"></span><span>Free study</span><span>15m</span></li>
+</ul>
+<div class="day-bars"><button type="button" aria-pressed="false" aria-label="Monday: 1h 15m"><span class="bar" style="--h: 0.9375"></span><small>M</small></button><button type="button" aria-pressed="false" aria-label="Tuesday: 1h 20m"><span class="bar" style="--h: 1.0000"></span><small>T</small></button><button type="button" aria-pressed="false" aria-label="Wednesday: 1h 5m"><span class="bar" style="--h: 0.8125"></span><small>W</small></button><button type="button" aria-pressed="false" aria-label="Thursday: nothing yet"><span class="bar" style="--h: 0.0000"></span><small>T</small></button><button type="button" aria-pressed="false" aria-label="Friday: nothing yet"><span class="bar" style="--h: 0.0000"></span><small>F</small></button><button type="button" aria-pressed="false" aria-label="Saturday: nothing yet"><span class="bar" style="--h: 0.0000"></span><small>S</small></button><button type="button" aria-pressed="false" aria-label="Sunday: nothing yet"><span class="bar" style="--h: 0.0000"></span><small>S</small></button></div>
+</div>
 </div>
 </div>
 </section>
