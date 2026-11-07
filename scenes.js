@@ -325,3 +325,100 @@ scene('.notify', (visual) => {
         }
     }));
 }
+
+// Timer: a pomodoro in fast-forward. 25 minutes run down in 8 seconds, the
+// phase-end pop-up asks what next, and a break runs in green. The Mac's mini
+// player follows it in the page's corner. Focus Clock works under Reduce
+// Motion too.
+{
+    const card = document.querySelector('.timer-card');
+    const ring = card.querySelector('.timer-ring');
+    const fill = ring.querySelector('.ring-fill');
+    const phase = card.querySelector('.timer-phase');
+    const clock = card.querySelector('.timer-clock');
+    const dots = [...card.querySelectorAll('.timer-dots i')];
+    const popup = card.querySelector('.phase-end');
+    const go = popup.querySelector('.go');
+    const mini = document.querySelector('.mini-player');
+    const miniClock = mini.querySelector('.mini-clock');
+    const miniFill = mini.querySelector('.mini-fill');
+
+    const toggle = card.querySelector('.focus-toggle');
+    toggle.addEventListener('click', () => {
+        const on = card.classList.toggle('clock');
+        toggle.setAttribute('aria-pressed', on);
+        toggle.textContent = on ? 'Done' : 'Focus Clock';
+    });
+
+    // Each phase: its length in seconds, how long it plays in ms, its colour.
+    const phases = {
+        focus: { label: 'Focus', seconds: 1500, plays: 8000, colour: 'orange' },
+        ask: { plays: 2300 },
+        break: { label: 'Short Break', seconds: 300, plays: 3200, colour: 'green' },
+    };
+    let current = 'focus';
+    let block = 1;
+    let began = 0;
+    let played = 0;
+    let frame = 0;
+
+    const show = (left, { seconds, label, colour }) => {
+        const share = left / seconds;
+        fill.style.strokeDashoffset = 552.92 * (1 - share);
+        miniFill.style.strokeDashoffset = 75.4 * (1 - share);
+        ring.style.setProperty('--c', `var(--${colour})`);
+        miniFill.style.stroke = `var(--${colour})`;
+        phase.textContent = label;
+        clock.textContent = clockText(left);
+        miniClock.textContent = clockText(left);
+    };
+    const enter = (name, now) => {
+        current = name;
+        began = now;
+    };
+    const tick = (now) => {
+        const spec = phases[current];
+        const progress = Math.min(1, (now - began) / spec.plays);
+        if (current === 'ask') {
+            go.classList.toggle('press', progress > 0.8);
+            if (progress === 1) {
+                go.classList.remove('press');
+                popup.classList.remove('in');
+                enter('break', now);
+            }
+        } else {
+            show(spec.seconds * (1 - progress), spec);
+            if (progress === 1 && current === 'focus') {
+                popup.classList.add('in');
+                enter('ask', now);
+            } else if (progress === 1) {
+                block = (block % 4) + 1;
+                dots.forEach((dot, index) => dot.classList.toggle('on', index < block));
+                enter('focus', now);
+            }
+        }
+        frame = requestAnimationFrame(tick);
+    };
+    const run = () => {
+        cancelAnimationFrame(frame);
+        began = performance.now() - played;
+        mini.classList.add('in');
+        frame = requestAnimationFrame(tick);
+    };
+    scene('.timer-card', () => ({
+        start() {
+            current = 'focus';
+            block = 1;
+            played = 0;
+            popup.classList.remove('in');
+            dots.forEach((dot, index) => dot.classList.toggle('on', index < block));
+            run();
+        },
+        resume: run,
+        pause() {
+            cancelAnimationFrame(frame);
+            played = performance.now() - began;
+            mini.classList.remove('in');
+        },
+    }));
+}

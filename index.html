@@ -223,8 +223,25 @@
 <p>Pomodoro, stopwatch or a manual log, counted toward each course along with the classes you attend.</p>
 </div>
 <div class="visual pair reveal">
-<div class="phone">
-<div class="bezel"><img src="images/iphone-timer.webp" width="660" height="1435" alt="Lectio on iPhone: a running pomodoro focus timer" loading="lazy"></div>
+<div class="card timer-card">
+<div role="img" aria-label="The pomodoro timer: 18 minutes 42 seconds left of a focus block for Linear Algebra">
+<div aria-hidden="true">
+<p class="sheet-tabs"><span class="on">Pomodoro</span><span>Stopwatch</span><span>Log</span></p>
+<div class="timer-ring" style="--c: var(--orange)">
+<svg viewBox="0 0 200 200"><circle class="ring-track" cx="100" cy="100" r="88"/><circle class="ring-fill" cx="100" cy="100" r="88" stroke-dasharray="552.92" stroke-dashoffset="139.34"/></svg>
+<p class="timer-face"><span class="timer-phase">Focus</span><span class="timer-clock">18:42</span><span class="timer-course">Linear Algebra</span></p>
+</div>
+<p class="timer-dots"><i class="on"></i><i class="on"></i><i></i><i></i></p>
+<p class="timer-buttons"><span>Pause</span><span>Skip</span></p>
+<div class="phase-end">
+<b>Focus block done</b>
+<span>25 minutes for Linear Algebra</span>
+<span class="phase-end-button go">Start Break</span>
+<span class="phase-end-button">Keep Focusing</span>
+</div>
+</div>
+</div>
+<button class="focus-toggle" type="button" aria-pressed="false">Focus Clock</button>
 </div>
 <div class="phone">
 <div class="bezel"><img src="images/iphone-study-time.webp" width="660" height="1435" alt="Lectio on iPhone: today's study time by course, above the pomodoro timer" loading="lazy"></div>
@@ -311,6 +328,11 @@
 <a href="https://lectio-study-planner.github.io/lectio-legal-docs/datenschutzerklaerung.de.html" lang="de">Datenschutz</a>
 </p>
 </footer>
+
+<div class="mini-player" aria-hidden="true">
+<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="12"/><circle class="mini-fill" cx="16" cy="16" r="12" stroke-dasharray="75.4" stroke-dashoffset="19"/></svg>
+<p><b class="mini-clock">18:42</b><small>Linear Algebra</small></p>
+</div>
 
 <script src="scenes.js" defer></script>
 </body>
