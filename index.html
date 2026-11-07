@@ -216,22 +216,6 @@
 </p>
 </footer>
 
-<script>
-// Fades each section in as it scrolls into view. Without JS everything is
-// simply visible; reduced motion is handled in the stylesheet.
-if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-        for (const entry of entries) {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('shown');
-                observer.unobserve(entry.target);
-            }
-        }
-    }, { rootMargin: '0px 0px -8% 0px' });
-    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
-} else {
-    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('shown'));
-}
-</script>
+<script src="scenes.js" defer></script>
 </body>
 </html>
