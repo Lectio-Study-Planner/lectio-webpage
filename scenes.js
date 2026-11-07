@@ -109,3 +109,99 @@ scene('.weeks', (weeks) => {
         pause: () => weeks.querySelector('.now')?.classList.remove('pulse'),
     };
 });
+
+// Plan: a course's tags cycle by themselves until a visitor taps one, and the
+// ring follows the share of items in a done tag. Taps work under Reduce
+// Motion too; only the autoplay is a scene.
+{
+    const card = document.querySelector('.course');
+    // The default tag sets: name, colour and whether the tag is in Done.
+    const tagSets = {
+        reading: [['pending', 'red', false], ['seen', 'orange', false], ['summarized', 'blue', true], ['studied', 'green', true]],
+        task: [['pending', 'red', false], ['done', 'blue', true], ['studied', 'green', true]],
+    };
+    // The course's other items: 9 of its 14 are done before these four.
+    const otherDone = 9;
+    const total = 14;
+    const circumference = 163.36;
+    const ring = card.querySelector('.ring-fill');
+    const percent = card.querySelector('.ring output');
+    const items = [...card.querySelectorAll('.items li')].map((row) => {
+        const button = row.querySelector('.tag');
+        return { row, button, set: tagSets[button.dataset.set], tag: Number(button.dataset.tag) };
+    });
+
+    const draw = (item, bump) => {
+        const [name, colour, done] = item.set[item.tag];
+        item.button.textContent = name;
+        item.button.style.setProperty('--c', `var(--tag-${colour})`);
+        item.row.classList.toggle('done', done);
+        if (bump) {
+            item.button.classList.remove('bump');
+            void item.button.offsetWidth;
+            item.button.classList.add('bump');
+        }
+    };
+    const drawRing = () => {
+        const done = otherDone + items.filter((item) => item.set[item.tag][2]).length;
+        const share = Math.round((done / total) * 100);
+        ring.style.strokeDashoffset = circumference * (1 - share / 100);
+        percent.textContent = `${share}%`;
+    };
+
+    let autoplay = true;
+    let timer = 0;
+    items.forEach((item) => item.button.addEventListener('click', () => {
+        autoplay = false;
+        clearInterval(timer);
+        item.tag = (item.tag + 1) % item.set.length;
+        draw(item, true);
+        drawRing();
+    }));
+
+    const step = () => {
+        const next = items.find((item) => item.tag < item.set.length - 1);
+        if (next) {
+            next.tag += 1;
+            draw(next, true);
+        } else {
+            items.forEach((item) => { item.tag = 0; draw(item); });
+        }
+        drawRing();
+    };
+    const run = () => {
+        clearInterval(timer);
+        if (autoplay) timer = setInterval(step, 1400);
+    };
+    scene('.course', () => ({
+        start() {
+            items.forEach((item) => { item.tag = 0; draw(item); });
+            drawRing();
+            run();
+        },
+        resume: run,
+        pause: () => clearInterval(timer),
+    }));
+}
+
+// Up Next: an item swipes away, the undo bar offers it back, and it returns.
+scene('.upnext', (card) => {
+    const row = card.querySelector('[data-dismiss]');
+    const bar = card.querySelector('.undo-bar');
+    return loop(async (stopped) => {
+        row.classList.remove('swiped', 'gone');
+        bar.classList.remove('in');
+        await sleep(2400);
+        if (stopped()) return;
+        row.classList.add('swiped');
+        await sleep(800);
+        if (stopped()) return;
+        row.classList.add('gone');
+        bar.classList.add('in');
+        await sleep(2800);
+        if (stopped()) return;
+        bar.classList.remove('in');
+        row.classList.remove('gone', 'swiped');
+        await sleep(1800);
+    });
+});
