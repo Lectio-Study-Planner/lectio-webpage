@@ -2443,6 +2443,17 @@ main {
     transform: none;
 }
 
+/* Side by side, a section's drawing follows its words a beat later. */
+@media (min-width: 761px) {
+    .js .feature .reveal + .reveal {
+        transition-delay: 0.12s;
+    }
+
+    .js .feature .reveal + .reveal + .reveal {
+        transition-delay: 0.24s;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
