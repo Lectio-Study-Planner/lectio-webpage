@@ -982,12 +982,101 @@ main {
     padding-bottom: 3rem;
 }
 
-.notify .sheet img {
-    display: block;
-    width: 62%;
-    max-width: 22rem;
+/* The Edit sheet of the task the notification is for */
+.edit-sheet {
+    width: 66%;
+    max-width: 23rem;
     margin-left: auto;
-    filter: drop-shadow(0 24px 48px var(--shadow)) drop-shadow(0 2px 6px var(--shadow));
+    padding: 0.8rem 1rem 1.1rem;
+    background: var(--surface);
+    font-size: 0.85rem;
+}
+
+.edit-sheet p {
+    margin: 0;
+}
+
+.edit-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.8rem !important;
+    color: var(--accent);
+}
+
+.edit-bar b {
+    color: var(--text);
+}
+
+.edit-bar .save {
+    font-weight: 600;
+}
+
+.edit-group {
+    margin-top: 0.7rem;
+    padding: 0 0.8rem;
+    border-radius: 12px;
+    background: var(--card);
+}
+
+.edit-group .sheet-row:first-child {
+    border-top: 0;
+}
+
+.edit-group .sheet-row {
+    gap: 1rem;
+    padding: 0.5rem 0;
+}
+
+.edit-group .sheet-row span:last-child {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.edit-sheet .sheet-row .tag {
+    color: #ffffff;
+    cursor: default;
+}
+
+.switch {
+    flex: none;
+    width: 2.3rem;
+    height: 1.4rem;
+    border-radius: 999px;
+    background: var(--green);
+    position: relative;
+}
+
+.switch::after {
+    content: "";
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    width: calc(1.4rem - 4px);
+    height: calc(1.4rem - 4px);
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
+}
+
+.notification {
+    transition: opacity 0.4s, transform 0.55s cubic-bezier(0.3, 0.8, 0.3, 1.1);
+}
+
+.notification.away {
+    opacity: 0;
+    transform: translateY(-24px) scale(0.96);
+}
+
+.notification-action {
+    transition: transform 0.15s, filter 0.15s;
+}
+
+.notification-action.press {
+    transform: scale(0.95);
+    filter: brightness(0.9);
 }
 
 .notification {
@@ -1258,8 +1347,9 @@ main {
         padding-bottom: 4.5rem;
     }
 
-    .notify .sheet img {
-        width: 66%;
+    .edit-sheet {
+        width: 78%;
+        font-size: 0.8rem;
     }
 
     .notification {

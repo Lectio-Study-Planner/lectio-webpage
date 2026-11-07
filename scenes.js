@@ -253,3 +253,34 @@ scene('.schedule-week', (card) => {
         },
     };
 });
+
+// Reminders: the alert comes in, Mark as Done is pressed, and the task in the
+// Edit sheet turns done.
+scene('.notify', (visual) => {
+    const note = visual.querySelector('.notification');
+    const action = visual.querySelector('.notification-action');
+    const status = visual.querySelector('.edit-sheet .tag');
+    const setStatus = (name, colour) => {
+        status.textContent = name;
+        status.style.setProperty('--c', `var(--tag-${colour})`);
+    };
+    return loop(async (stopped) => {
+        note.classList.add('away');
+        action.classList.remove('press');
+        setStatus('pending', 'red');
+        await sleep(900);
+        if (stopped()) return;
+        note.classList.remove('away');
+        await sleep(2200);
+        if (stopped()) return;
+        action.classList.add('press');
+        await sleep(250);
+        action.classList.remove('press');
+        note.classList.add('away');
+        await sleep(350);
+        setStatus('done', 'blue');
+        status.classList.add('bump');
+        await sleep(2600);
+        status.classList.remove('bump');
+    });
+});
