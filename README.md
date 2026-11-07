@@ -21,7 +21,8 @@ itself (`<meta http-equiv="refresh">`).
 
 ## Editing
 
-- `index.html` is the landing page, `style.css` the styles of every page.
+- `index.html` is the landing page, `style.css` the styles of every page,
+  `scenes.js` the landing page's motion.
   Open a page in a browser to preview it; there is nothing to install.
 - `support.html` holds the questions people ask most, the contact email (the
   one in the Impressum) and the feedback form. Each answer names the app's
@@ -36,18 +37,34 @@ itself (`<meta http-equiv="refresh">`).
   site's origin (`https://lectio-study-planner.github.io`), so the form fails
   from a local preview or if the site moves to another domain: add the new
   origin to `ALLOWED_ORIGINS` in the function first.
-- `images/` holds the app screenshots the page shows, taken from the app
-  app on sample data (four semesters, made-up friends). The Mac shots are the
-  window itself at 1360×850 points, captured with its transparent corners
-  (`screencapture -o -l <window id>`), so the page's drop shadow follows
-  them; `mac-edit` is the Edit sheet cut out of such a window. iPhone and
-  iPad shots are only scaled down, and the page draws their bezels. All are WebP (`cwebp -q 86`).
-  In dark mode the hero and Progress section swap to the dark shots
+- The feature sections are drawings, not screenshots: each shows a piece of
+  the app (a course, the timetable, the timer, Progress, ...) in HTML and
+  CSS, in the app's own colours (`style.css`: the course colours of the
+  example semester, the default tag colours, the friends' colours). Their
+  data is made up but matches the app's samples: the example semester's
+  courses (`ExampleSemester`) and the welcome tour's friends and credit
+  categories (`WelcomeSample`). When the app's design or a sample changes,
+  redraw the drawing it affects, and keep the words in step with the welcome
+  tour's pages.
+- `scenes.js` moves them. The HTML is each drawing's finished frame, so
+  without JavaScript, or under Reduce Motion, that is what shows. A scene
+  (`scene()`) rewinds its drawing when it first comes on screen, plays it,
+  and stops its loops while it is off screen. Controls a visitor can use
+  (tags, friend checks, day bars, Focus Clock, the device picker) work under
+  Reduce Motion too. The script also fades sections in and tints the page's
+  glow with the colour of the section on screen.
+- The mark at the top of the hero is drawn as the app's `AppMark` is, and
+  fills its bars as the app's loading screen does (`loadingMarkShares`).
+- `images/` keeps the hero's one screenshot, the Mac window at 1360×850
+  points captured with its transparent corners (`screencapture -o -l
+  <window id>`), so the page's drop shadow follows them, in WebP
+  (`cwebp -q 86`): `mac-course` in light mode and `mac-dark` in dark
   (`<picture>` with `prefers-color-scheme`).
 - `images/og-preview.jpg` is the link preview chats and social sites show:
   1200 × 630, the shape they crop to. It is a small HTML card, the app icon,
   the hero's headline and "Lectio · Free for Mac, iPhone and iPad" on the
-  left and `iphone-semester.webp` in the page's bezel on the right, rendered
+  left and the iPhone shot `iphone-semester.webp` in a bezel on the right
+  (no longer in `images/`: take it from the git history to redraw), rendered
   at 2× in a browser and scaled down to a JPEG (quality 88). Keep it under
   300 KB, which WhatsApp needs for a large preview. Apps cache a preview by
   the image's address, so a redrawn one gets a new file name, and the
