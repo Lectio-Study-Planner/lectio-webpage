@@ -520,21 +520,26 @@ main {
     position: relative;
     background: var(--red);
     border-top: 1px solid var(--rule);
-    max-height: 5rem;
-    transition: max-height 0.4s ease, border-color 0.4s;
+    /* One row track that closes from the row's own height to none, so the
+       collapse moves from its first frame to its last. */
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s;
     overflow: hidden;
 }
 
 .row-inner {
     position: relative;
     z-index: 1;
+    min-height: 0;
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: 0.7rem;
     padding: 0.55rem 1.1rem;
     background: var(--card);
-    transition: transform 0.45s cubic-bezier(0.3, 0.8, 0.3, 1);
+    transition: transform 0.45s cubic-bezier(0.3, 0.8, 0.3, 1),
+        padding-block 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .row-text {
@@ -573,8 +578,12 @@ main {
 }
 
 .upnext li.gone {
-    max-height: 0;
+    grid-template-rows: 0fr;
     border-color: transparent;
+}
+
+.upnext li.gone .row-inner {
+    padding-block: 0;
 }
 
 .more-row {
