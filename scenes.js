@@ -100,7 +100,8 @@ scene('.weeks', (weeks) => {
     return {
         rewind: () => cells.forEach((cell) => cell.classList.remove('done', 'now', 'pulse')),
         async start() {
-            await sleep(300);
+            // The weeks rise in with the hero first (style.css).
+            await sleep(650);
             for (const [index, cell] of cells.entries()) {
                 if (!finished[index]) continue;
                 await sleep(110);

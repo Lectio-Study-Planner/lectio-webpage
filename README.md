@@ -54,7 +54,9 @@ itself (`<meta http-equiv="refresh">`).
   screen. Controls a visitor can use
   (tags, friend checks, day bars, Focus Clock, the device picker) work under
   Reduce Motion too. The script also fades sections in and tints the page's
-  glow with the colour of the section on screen.
+  glow with the colour of the section on screen. The hero's parts rise in
+  one after another as the page loads (`style.css`, not under Reduce
+  Motion).
 - The mark at the top of the hero is drawn as the app's `AppMark` is, and
   fills its bars as the app's loading screen does (`loadingMarkShares`).
 - `images/` keeps the hero's one screenshot, the Mac window at 1360×850

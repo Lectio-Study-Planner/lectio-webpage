@@ -365,6 +365,50 @@ body::before {
     filter: drop-shadow(0 24px 48px var(--shadow)) drop-shadow(0 2px 6px var(--shadow));
 }
 
+/* As the page loads, the hero's parts rise into place one after another:
+   the mark, the headline, the line under it, the weeks, the badge and last
+   the Mac. Their finished place is where they stand without motion. */
+
+@media (prefers-reduced-motion: no-preference) {
+    .hero > * {
+        animation: hero-rise 0.9s var(--ease-out) both;
+    }
+
+    .hero > .hero-mark {
+        animation: hero-mark-in 0.8s var(--ease-pop) both;
+    }
+
+    .hero > h1 { animation-delay: 0.08s; }
+    .hero > .lede { animation-delay: 0.16s; }
+    .hero > .weeks { animation-delay: 0.24s; }
+    .hero > .cta { animation-delay: 0.32s; }
+
+    .hero > .hero-shot {
+        animation: hero-shot-rise 1.2s var(--ease-out) 0.4s both;
+    }
+}
+
+@keyframes hero-rise {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+}
+
+@keyframes hero-mark-in {
+    from {
+        opacity: 0;
+        transform: scale(0.82);
+    }
+}
+
+@keyframes hero-shot-rise {
+    from {
+        opacity: 0;
+        transform: translateY(56px) scale(0.97);
+    }
+}
+
 /* Features */
 
 main {
