@@ -1594,6 +1594,14 @@ main {
     font-size: 0.8rem;
 }
 
+.gpa .gpa-band {
+    transition: opacity 0.3s;
+}
+
+.gpa .gpa-band.fading {
+    opacity: 0;
+}
+
 .credit-bar {
     display: flex;
     height: 14px;

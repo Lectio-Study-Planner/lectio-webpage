@@ -510,8 +510,11 @@ scene('.progress-card', (card) => {
             bar.classList.remove('empty');
             count(0, 96, 1500, (value) => { credits.textContent = Math.round(value); });
             count(4, 1.7, 1500, (value) => { gpa.textContent = value.toFixed(1); });
-            await sleep(1600);
+            await sleep(1500);
+            band.classList.add('fading');
+            await sleep(300);
             band.textContent = 'GPA · gut';
+            band.classList.remove('fading');
         },
     };
 });
