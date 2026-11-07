@@ -454,32 +454,6 @@ main {
     max-width: 60rem;
 }
 
-.stack {
-    position: relative;
-    padding-left: 14%;
-}
-
-.stack .ipad {
-    width: 100%;
-}
-
-.stack-phone {
-    position: absolute;
-    left: 0;
-    bottom: -6%;
-    width: 34%;
-}
-
-.stack.trailing {
-    padding-left: 0;
-    padding-right: 14%;
-}
-
-.stack.trailing .stack-phone {
-    left: auto;
-    right: 0;
-}
-
 /* Drawn cards: pieces of the app's screens in its own colours */
 
 .card {
@@ -1529,6 +1503,115 @@ main {
     .js .mini-player {
         display: flex;
     }
+}
+
+/* Progress: credits toward the degree by category, and the GPA */
+
+.progress-card {
+    width: 100%;
+    max-width: 26rem;
+    margin: 0 auto;
+    padding: 1.2rem 1.2rem 0.6rem;
+}
+
+.progress-card p {
+    margin: 0;
+}
+
+.progress-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 1rem;
+}
+
+.credits b {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+    font-size: 2.6rem;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.credits span {
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.gpa {
+    text-align: right;
+}
+
+.gpa b {
+    display: block;
+    font-size: 1.7rem;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+}
+
+.gpa span {
+    color: var(--muted);
+    font-size: 0.8rem;
+}
+
+.credit-bar {
+    display: flex;
+    height: 14px;
+    margin: 1rem 0 !important;
+    border-radius: 999px;
+    overflow: hidden;
+    background: var(--track);
+}
+
+.credit-bar i {
+    width: var(--w);
+    height: 100%;
+    background: var(--c);
+    transition: width 0.9s cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+
+.credit-bar i.in-progress,
+.categories .in-progress .dot {
+    background: repeating-linear-gradient(135deg, var(--muted) 0 3px, transparent 3px 6px);
+}
+
+.credit-bar.empty i {
+    width: 0;
+}
+
+.categories,
+.semesters {
+    display: grid;
+    gap: 0.45rem;
+    font-size: 0.88rem;
+}
+
+.categories li,
+.semesters li {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+}
+
+.categories li span:last-child,
+.semesters li span {
+    margin-left: auto;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.semesters {
+    margin-top: 1rem !important;
+    padding-top: 0.4rem !important;
+    border-top: 1px solid var(--rule);
+}
+
+.semesters li {
+    padding: 0.35rem 0;
+}
+
+.semesters li + li {
+    border-top: 1px solid var(--rule);
 }
 
 /* Friends: their classes beside yours, each friend in a lane of their own.

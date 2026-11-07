@@ -268,15 +268,27 @@
 <h2>Credits and GPA,<br>every semester.</h2>
 <p>Your grades and credits across the whole degree, with a GPA worked out by your university's rules.</p>
 </div>
-<div class="visual stack trailing reveal">
-<div class="ipad">
-<picture class="bezel">
-<source srcset="images/ipad-progress-dark.webp" media="(prefers-color-scheme: dark)">
-<img src="images/ipad-progress.webp" width="1100" height="1467" alt="Lectio on iPad: credits earned toward the degree, the GPA and courses by semester" loading="lazy">
-</picture>
+<div class="visual reveal">
+<div class="card progress-card" role="img" aria-label="Progress: 96 of 180 credits earned, 18 in progress, and a GPA of 1.7, gut, worked out by credits across four semesters">
+<div aria-hidden="true">
+<div class="progress-top">
+<p class="credits"><b class="credit-count">96</b><span> / 180 CP</span></p>
+<p class="gpa"><b class="gpa-value">1.7</b><span class="gpa-band">GPA · gut</span></p>
 </div>
-<div class="phone stack-phone">
-<div class="bezel"><img src="images/iphone-progress-dark.webp" width="660" height="1435" alt="Lectio on iPhone in dark mode: credits by category" loading="lazy"></div>
+<p class="credit-bar"><i style="--c: var(--ads); --w: 30%"></i><i style="--c: var(--linalg); --w: 16.667%"></i><i style="--c: var(--databases); --w: 6.667%"></i><i class="in-progress" style="--w: 10%"></i></p>
+<ul class="categories">
+<li style="--c: var(--ads)"><span class="dot"></span>Computer Science core<span>54 / 90</span></li>
+<li style="--c: var(--linalg)"><span class="dot"></span>Mathematics<span>30 / 36</span></li>
+<li style="--c: var(--databases)"><span class="dot"></span>Electives<span>12 / 30</span></li>
+<li class="in-progress"><span class="dot"></span>In progress<span>18</span></li>
+</ul>
+<ul class="semesters">
+<li>Autumn 2024<span>30 CP · 2.0</span></li>
+<li>Spring 2025<span>33 CP · 1.7</span></li>
+<li>Autumn 2025<span>33 CP · 1.5</span></li>
+<li>Spring 2026<span>18 CP in progress</span></li>
+</ul>
+</div>
 </div>
 </div>
 </section>

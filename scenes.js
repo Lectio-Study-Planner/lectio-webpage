@@ -480,3 +480,26 @@ scene('.notify', (visual) => {
         },
     }));
 }
+
+// Progress: the credits count up, the bar fills by category, and the GPA
+// settles on its grade before its band shows.
+scene('.progress-card', (card) => {
+    const credits = card.querySelector('.credit-count');
+    const gpa = card.querySelector('.gpa-value');
+    const band = card.querySelector('.gpa-band');
+    const bar = card.querySelector('.credit-bar');
+    return {
+        async start() {
+            bar.classList.add('empty');
+            credits.textContent = '0';
+            gpa.textContent = '4.0';
+            band.textContent = 'GPA';
+            await sleep(200);
+            bar.classList.remove('empty');
+            count(0, 96, 1500, (value) => { credits.textContent = Math.round(value); });
+            count(4, 1.7, 1500, (value) => { gpa.textContent = value.toFixed(1); });
+            await sleep(1600);
+            band.textContent = 'GPA · gut';
+        },
+    };
+});
