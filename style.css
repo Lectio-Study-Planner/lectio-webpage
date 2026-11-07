@@ -36,6 +36,9 @@
     --tag-blue: #1f74ff;
     --tag-green: #11d459;
     --free-study: #8b96a3;
+    /* Friends, in the colours FriendColors gives the first two */
+    --lena: #fa512e;
+    --mia: #20c520;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -1130,18 +1133,67 @@ main {
     font-size: 0.9rem;
 }
 
-/* Friends: the Mac with a phone in front, like the hero */
+/* Friends: their classes beside yours, each friend in a lane of their own.
+   While any friend shows, your own classes wear the accent colour. */
 
-.duo {
-    position: relative;
-    padding-right: 6%;
+.friend-checks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0 0 0.8rem 0.5rem;
 }
 
-.duo-phone {
-    position: absolute;
-    right: 0;
-    bottom: -8%;
-    width: 22%;
+.friend-check {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.3rem 0.85rem 0.3rem 0.35rem;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--text);
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.friend-check:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.friend-check i {
+    display: grid;
+    place-items: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    border: 2px solid var(--c);
+    transition: background 0.25s;
+}
+
+.friend-check[aria-pressed="true"] i {
+    background: var(--c);
+}
+
+.friend-check[aria-pressed="true"] i::after {
+    content: "";
+    width: 0.45rem;
+    height: 0.22rem;
+    border: 2px solid #ffffff;
+    border-top: 0;
+    border-right: 0;
+    transform: translateY(-1px) rotate(-45deg);
+}
+
+.friends-on .cls.mine {
+    --c: var(--accent) !important;
+}
+
+.cls.friend {
+    border: 1.5px dashed var(--c);
+    background: color-mix(in srgb, var(--c) 12%, var(--card));
 }
 
 /* Import */
@@ -1307,13 +1359,8 @@ main {
         padding-right: 10%;
     }
 
-    .hero-phone,
-    .duo-phone {
+    .hero-phone {
         width: 28%;
-    }
-
-    .duo {
-        padding-right: 10%;
     }
 
     .feature {
@@ -1400,6 +1447,10 @@ main {
     .cls small,
     .drawn-class small,
     .due-mark span {
+        display: none;
+    }
+
+    .friends-on .cls b {
         display: none;
     }
 

@@ -284,3 +284,44 @@ scene('.notify', (visual) => {
         status.classList.remove('bump');
     });
 });
+
+// Friends: ticking a friend lays their classes beside yours, in a lane of
+// their own, and turns yours to the accent colour. The checks tick by
+// themselves until a visitor taps one.
+{
+    const week = document.querySelector('.friends-week');
+    const checks = [...week.querySelectorAll('.friend-check')];
+    const shown = Object.fromEntries(checks.map((check) => [check.dataset.friend, check.getAttribute('aria-pressed') === 'true']));
+    const apply = () => {
+        let lane = 0;
+        for (const check of checks) {
+            const friend = check.dataset.friend;
+            check.setAttribute('aria-pressed', shown[friend]);
+            if (shown[friend]) lane += 1;
+            week.querySelectorAll(`.cls[data-friend="${friend}"]`).forEach((cls) => {
+                cls.classList.toggle('hidden', !shown[friend]);
+                if (shown[friend]) cls.style.setProperty('--lane', lane);
+            });
+        }
+        week.style.setProperty('--lanes', lane + 1);
+        week.classList.toggle('friends-on', lane > 0);
+    };
+
+    let autoplay = true;
+    checks.forEach((check) => check.addEventListener('click', () => {
+        autoplay = false;
+        shown[check.dataset.friend] = !shown[check.dataset.friend];
+        apply();
+    }));
+
+    // Lena, then Mia, then neither, and again.
+    const steps = [{ lena: true, mia: false }, { lena: true, mia: true }, { lena: false, mia: true }, { lena: false, mia: false }];
+    scene('.friends-week', () => loop(async (stopped) => {
+        for (const step of steps) {
+            await sleep(2200);
+            if (stopped() || !autoplay) return;
+            Object.assign(shown, step);
+            apply();
+        }
+    }));
+}
