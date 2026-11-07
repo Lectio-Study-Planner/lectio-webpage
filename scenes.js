@@ -540,3 +540,41 @@ scene('.moodle-sync', (sync) => {
         await sleep(3200);
     });
 });
+
+// And more: the Dynamic Island opens into the Live Activity and closes, and
+// the clocks in it and in the menu bar count down.
+scene('.system-pieces', (pieces) => {
+    const island = pieces.querySelector('.island');
+    const clocks = [...pieces.querySelectorAll('.island-clock')];
+    const fill = pieces.querySelector('.menu-fill');
+    let left = 18 * 60 + 42;
+    let ticker = 0;
+    const tick = () => {
+        left = left > 0 ? left - 1 : 25 * 60;
+        clocks.forEach((clock) => { clock.textContent = clockText(left); });
+        fill.style.strokeDashoffset = 44 * (1 - left / 1500);
+    };
+    const opening = loop(async (stopped) => {
+        await sleep(2400);
+        if (stopped()) return;
+        island.classList.add('open');
+        await sleep(3000);
+        island.classList.remove('open');
+    });
+    return {
+        start() {
+            clearInterval(ticker);
+            ticker = setInterval(tick, 1000);
+            opening.start();
+        },
+        resume() {
+            clearInterval(ticker);
+            ticker = setInterval(tick, 1000);
+            opening.resume();
+        },
+        pause() {
+            clearInterval(ticker);
+            opening.pause();
+        },
+    };
+});
