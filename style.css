@@ -348,58 +348,15 @@ body::before {
     position: relative;
     margin: 4.5rem auto 0;
     max-width: 64rem;
-    padding-right: 6%;
 }
 
-/* Device frames. The Mac shots carry the window's own rounded corners, so a
-   drop shadow follows them. iPhone and iPad screens sit in a bezel whose
-   sizes are fractions of the device's width (cqw). */
+/* The Mac shot carries the window's own rounded corners, so a drop shadow
+   follows them. */
 
 .mac {
     display: block;
     width: 100%;
     filter: drop-shadow(0 24px 48px var(--shadow)) drop-shadow(0 2px 6px var(--shadow));
-}
-
-.phone,
-.ipad {
-    container-type: inline-size;
-}
-
-.phone .bezel,
-.ipad .bezel {
-    display: block;
-    background: var(--bezel);
-    box-shadow: 0 24px 48px var(--shadow), 0 2px 6px var(--shadow);
-}
-
-.phone .bezel {
-    padding: 3.1cqw;
-    border-radius: 15.9cqw;
-}
-
-.phone img {
-    display: block;
-    width: 100%;
-    border-radius: 12.8cqw;
-}
-
-.ipad .bezel {
-    padding: 2.4cqw;
-    border-radius: 5.2cqw;
-}
-
-.ipad img {
-    display: block;
-    width: 100%;
-    border-radius: 2.8cqw;
-}
-
-.hero-phone {
-    position: absolute;
-    right: 0;
-    bottom: -8%;
-    width: 22%;
 }
 
 /* Features */
@@ -2496,11 +2453,6 @@ main {
 
     .hero-shot {
         margin-top: 3rem;
-        padding-right: 10%;
-    }
-
-    .hero-phone {
-        width: 28%;
     }
 
     .feature {
