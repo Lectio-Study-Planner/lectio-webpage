@@ -18,6 +18,24 @@
     --teal: #30b0c7;
     --indigo: #5856d6;
     --red: #ff3b30;
+
+    /* The drawings: cards, tracks and the app's own colours */
+    --card: #ffffff;
+    --track: #ececf0;
+    --ink: #0b0b0d;
+    --mark-tile: #f6f6f6;
+    --mark-track: #e3e3e3;
+    /* Course colours, as the example semester wears them */
+    --ads: #1e87f6;
+    --linalg: #fa512e;
+    --databases: #7b39ef;
+    --systems: #20c520;
+    /* The default reading and task tags */
+    --tag-pending: #ff2424;
+    --tag-seen: #ff720f;
+    --tag-summarized: #1f74ff;
+    --tag-studied: #11d459;
+    --free-study: #8b96a3;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -33,6 +51,10 @@
         --bezel: #2a2a2e;
         --shadow: rgb(0 0 0 / 0.5);
         --glass: rgb(44 44 48 / 0.8);
+        --card: #1c1c1f;
+        --track: #2e2e33;
+        --mark-tile: #2b2b2b;
+        --mark-track: #4d4d4d;
     }
 }
 
@@ -153,12 +175,118 @@ h2 {
     pointer-events: none;
 }
 
-.hero-icon {
+/* The app's mark, drawn as AppMark draws it: four bars in their tracks on
+   the icon's 1024-point grid (tracks 544 by 76, 40 apart). While it is on
+   screen each bar fills its track and drops back, a little after the one
+   above, as on the app's loading screen (loadingMarkShares). */
+
+.mark {
+    --size: 96px;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 22.5%;
+    background: var(--mark-tile);
+    box-shadow: 0 calc(var(--size) * 0.03) calc(var(--size) * 0.16) rgb(0 0 0 / 0.12);
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    gap: calc(var(--size) * 40 / 1024);
+}
+
+.mark span {
     display: block;
+    width: calc(var(--size) * 544 / 1024);
+    height: calc(var(--size) * 76 / 1024);
+    border-radius: 999px;
+    background: var(--mark-track);
+    overflow: hidden;
+}
+
+.mark i {
+    display: block;
+    height: 100%;
+    width: calc(var(--rest) * 100%);
+    border-radius: 999px;
+}
+
+.mark span:nth-child(1) i { background: #5cb85c; }
+.mark span:nth-child(2) i { background: #4a90d9; animation-delay: 0.12s; }
+.mark span:nth-child(3) i { background: #f0ad4e; animation-delay: 0.24s; }
+.mark span:nth-child(4) i { background: #7e57c2; animation-delay: 0.36s; }
+
+.mark.playing i {
+    animation-name: mark-fill;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes mark-fill {
+    0% { width: calc(var(--rest) * 100%); animation-timing-function: ease-in-out; }
+    27.5% { width: 100%; animation-timing-function: linear; }
+    47.5% { width: 100%; animation-timing-function: ease-in-out; }
+    75%,
+    100% { width: calc(var(--rest) * 100%); }
+}
+
+.hero-mark {
     margin: 0 auto 1.5rem;
-    width: 96px;
-    height: 96px;
-    filter: drop-shadow(0 10px 24px var(--shadow));
+}
+
+/* The semester's weeks up to this one, a vacation week among them */
+
+.weeks {
+    margin: 2rem auto 0;
+    max-width: 24rem;
+}
+
+.weeks ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(14, 1fr);
+    gap: 4px;
+}
+
+.weeks li {
+    aspect-ratio: 1;
+    border-radius: 6px;
+    background: var(--track);
+    color: var(--muted);
+    font-size: 0.62rem;
+    font-weight: 600;
+    display: grid;
+    place-items: center;
+    transition: background 0.35s, color 0.35s, box-shadow 0.35s;
+}
+
+.weeks li.done {
+    background: var(--accent);
+    color: #ffffff;
+}
+
+.weeks li.now {
+    background: var(--bg);
+    color: var(--accent);
+    box-shadow: inset 0 0 0 2px var(--accent);
+}
+
+.weeks li.now.pulse {
+    animation: week-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes week-pulse {
+    50% { box-shadow: inset 0 0 0 2px var(--accent), 0 0 0 5px var(--glow); }
+}
+
+.weeks li.vacation {
+    background: repeating-linear-gradient(135deg, var(--track) 0 3px, transparent 3px 6px);
+}
+
+.weeks figcaption {
+    margin-top: 0.65rem;
+    font-size: 0.9rem;
+    color: var(--muted);
 }
 
 .hero h1 {

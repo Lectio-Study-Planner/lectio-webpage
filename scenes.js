@@ -82,3 +82,30 @@ const clockText = (seconds) => {
     const whole = Math.max(0, Math.ceil(seconds));
     return `${String(Math.floor(whole / 60)).padStart(2, '0')}:${String(whole % 60).padStart(2, '0')}`;
 };
+
+// Hero: the mark's bars fill in turn, and the semester's weeks fill up to
+// this one.
+scene('.hero-mark', (mark) => ({
+    start: () => mark.classList.add('playing'),
+    resume: () => mark.classList.add('playing'),
+    pause: () => mark.classList.remove('playing'),
+}));
+
+scene('.weeks', (weeks) => {
+    const cells = [...weeks.querySelectorAll('li')];
+    const finished = cells.map((cell) => cell.className);
+    return {
+        async start() {
+            cells.forEach((cell) => cell.classList.remove('done', 'now', 'pulse'));
+            await sleep(300);
+            for (const [index, cell] of cells.entries()) {
+                if (!finished[index]) continue;
+                await sleep(110);
+                cell.className = finished[index];
+            }
+            weeks.querySelector('.now')?.classList.add('pulse');
+        },
+        resume: () => weeks.querySelector('.now')?.classList.add('pulse'),
+        pause: () => weeks.querySelector('.now')?.classList.remove('pulse'),
+    };
+});
