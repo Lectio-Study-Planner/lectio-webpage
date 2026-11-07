@@ -503,3 +503,40 @@ scene('.progress-card', (card) => {
         },
     };
 });
+
+// Import: the latest Moodle check found three files. Each is ticked, then
+// moves into the course marked New, and the red count runs down.
+scene('.moodle-sync', (sync) => {
+    const found = [...sync.querySelectorAll('.moodle-new li')];
+    const incoming = [...sync.querySelectorAll('.moodle-course .incoming')];
+    const badge = sync.querySelector('.badge-count');
+    const setBadge = (n) => {
+        badge.textContent = n;
+        badge.classList.toggle('none', n === 0);
+    };
+    return loop(async (stopped) => {
+        found.forEach((li) => {
+            li.classList.remove('added');
+            li.querySelector('.check').classList.remove('on');
+        });
+        incoming.forEach((li) => li.classList.add('waiting'));
+        incoming.forEach((li) => li.classList.remove('arrive'));
+        setBadge(found.length);
+        await sleep(900);
+        for (const li of found) {
+            if (stopped()) return;
+            li.querySelector('.check').classList.add('on');
+            await sleep(380);
+        }
+        await sleep(500);
+        for (const [index, li] of found.entries()) {
+            if (stopped()) return;
+            li.classList.add('added');
+            incoming[index].classList.remove('waiting');
+            incoming[index].classList.add('arrive');
+            setBadge(found.length - index - 1);
+            await sleep(450);
+        }
+        await sleep(3200);
+    });
+});

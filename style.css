@@ -1687,7 +1687,7 @@ main {
     justify-content: center;
 }
 
-.imports ul {
+.imports > ul {
     list-style: none;
     margin: 3rem auto 0;
     padding: 0;
@@ -1698,13 +1698,13 @@ main {
     text-align: left;
 }
 
-.imports li {
+.imports > ul > li {
     padding: 1.6rem 1.5rem 1.75rem;
     border-radius: 22px;
     background: var(--surface);
 }
 
-.imports svg {
+.imports > ul svg {
     display: block;
     width: 2rem;
     height: 2rem;
@@ -1715,16 +1715,127 @@ main {
     stroke-linejoin: round;
 }
 
-.imports h3 {
+.imports > ul h3 {
     margin: 1rem 0 0.4rem;
     font-size: 1.2rem;
     letter-spacing: -0.01em;
 }
 
-.imports li p {
+.imports > ul p {
     margin: 0;
     color: var(--muted);
     font-size: 1rem;
+}
+
+/* Import: new Moodle material ticked and moved into its course */
+
+.moodle-sync {
+    max-width: 52rem;
+    margin: 3rem auto 0;
+}
+
+.moodle-panels {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 1rem;
+}
+
+.moodle-panels .card {
+    align-self: stretch;
+    padding: 0.9rem 0.9rem 1rem;
+}
+
+.moodle-panels .card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.6rem;
+    font-size: 0.95rem;
+}
+
+.moodle-panels ul {
+    display: grid;
+    gap: 0.4rem;
+}
+
+.moodle-panels li {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.45rem 0.6rem;
+    border-radius: 10px;
+    background: var(--surface);
+    font-size: 0.88rem;
+    transition: opacity 0.4s;
+}
+
+.moodle-new li.added {
+    opacity: 0.4;
+}
+
+.badge-count {
+    min-width: 1.3rem;
+    padding: 0 0.4rem;
+    border-radius: 999px;
+    background: var(--red);
+    color: #ffffff;
+    font-size: 0.72rem;
+    text-align: center;
+    transition: opacity 0.3s;
+}
+
+.badge-count.none {
+    opacity: 0;
+}
+
+.check {
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: 1.5px solid var(--muted);
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.check.on {
+    border-color: var(--accent);
+    background: var(--accent);
+}
+
+.moodle-arrow {
+    width: 1.8rem;
+    height: 1.8rem;
+    fill: none;
+    stroke: var(--teal);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.new-pill {
+    margin-left: auto;
+    padding: 0.05rem 0.45rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
+    color: var(--accent);
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.moodle-course li.incoming.waiting {
+    display: none;
+}
+
+.moodle-course li.arrive {
+    animation: arrive 0.5s cubic-bezier(0.3, 0.8, 0.3, 1.1);
+}
+
+@keyframes arrive {
+    from {
+        opacity: 0;
+        transform: translateX(-24px);
+    }
 }
 
 /* And more */
@@ -1886,9 +1997,18 @@ main {
         text-align: left;
     }
 
-    .imports ul {
+    .imports > ul {
         grid-template-columns: 1fr;
         margin-top: 2.5rem;
+    }
+
+    .moodle-panels {
+        grid-template-columns: 1fr;
+    }
+
+    .moodle-arrow {
+        justify-self: center;
+        transform: rotate(90deg);
     }
 
     .more {
