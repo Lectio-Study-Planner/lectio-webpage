@@ -119,11 +119,14 @@ scene('.weeks', (weeks) => {
 // Motion too; only the autoplay is a scene.
 {
     const card = document.querySelector('.course');
-    // The default tag sets: name, colour and whether the tag is in Done.
+    // The default tag sets: name, colour, whether the tag is in Done, and
+    // whether it is in Skipped, which leaves the item out of the ring. A tap
+    // reaches skipped; the autoplay stops before it.
     const tagSets = {
-        reading: [['pending', 'red', false], ['seen', 'orange', false], ['summarized', 'blue', true], ['studied', 'green', true]],
-        task: [['pending', 'red', false], ['done', 'blue', true], ['studied', 'green', true]],
+        reading: [['pending', 'red', false], ['seen', 'orange', false], ['summarized', 'blue', true], ['studied', 'green', true], ['skipped', 'grey', false, true]],
+        task: [['pending', 'red', false], ['done', 'blue', true], ['studied', 'green', true], ['skipped', 'grey', false, true]],
     };
+    const lastAutoplayTag = (set) => set.findLastIndex((tag) => !tag[3]);
     // The course's other items: 9 of its 14 are done before these four.
     const otherDone = 9;
     const total = 14;
@@ -148,7 +151,8 @@ scene('.weeks', (weeks) => {
     };
     const drawRing = () => {
         const done = otherDone + items.filter((item) => item.set[item.tag][2]).length;
-        const share = Math.round((done / total) * 100);
+        const skipped = items.filter((item) => item.set[item.tag][3]).length;
+        const share = Math.round((done / (total - skipped)) * 100);
         ring.style.strokeDashoffset = circumference * (1 - share / 100);
         percent.textContent = `${share}%`;
     };
@@ -164,7 +168,7 @@ scene('.weeks', (weeks) => {
     }));
 
     const step = () => {
-        const next = items.find((item) => item.tag < item.set.length - 1);
+        const next = items.find((item) => item.tag < lastAutoplayTag(item.set));
         if (next) {
             next.tag += 1;
             draw(next, true);
