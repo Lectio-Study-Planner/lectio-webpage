@@ -6,18 +6,23 @@ their stylesheet. Static HTML, no build step.
 
 ## Published at
 
-GitHub Pages serves `main` from the repo root:
-<https://lectio-study-planner.github.io/lectio-webpage/>
+GitHub Pages serves `main` from the repo root at
+<https://lectio.mateoarenas.dev/>, a subdomain of `mateoarenas.dev`: the
+`CNAME` file here names it, and a CNAME record at Porkbun, where the domain is
+registered, points it to `lectio-study-planner.github.io`. The old address,
+`https://lectio-study-planner.github.io/lectio-webpage/`, redirects there page
+for page, so the links already out there (App Store Connect's among them)
+keep working.
 
 | Page | Address | Used as |
 |---|---|---|
-| `index.html` | `…/lectio-webpage/` | Marketing URL in App Store Connect |
-| `support.html` | `…/lectio-webpage/support.html` | Support URL in App Store Connect, and the app repo's README |
-| `feedback.html` | `…/lectio-webpage/feedback.html` | Forwards to the support page's form |
+| `index.html` | `https://lectio.mateoarenas.dev/` | Marketing URL in App Store Connect |
+| `support.html` | `…/support.html` | Support URL in App Store Connect, and the app repo's README |
+| `feedback.html` | `…/feedback.html` | Forwards to the support page's form |
 
-If a page is renamed or the site moves, keep the old address answering, as
-`feedback.html` does: Pages has no redirects, so it is a page that forwards
-itself (`<meta http-equiv="refresh">`).
+If a page is renamed, keep its old address answering, as `feedback.html`
+does: Pages redirects only from the old domain, not between pages, so it is
+a page that forwards itself (`<meta http-equiv="refresh">`).
 
 ## Editing
 
@@ -34,9 +39,10 @@ itself (`<meta http-equiv="refresh">`).
   [lectio-feedback](https://github.com/Lectio-Study-Planner/lectio-feedback),
   and the report becomes an issue in the private `lectio` repo. It sends the
   version as `? via website`. The function only answers browsers from this
-  site's origin (`https://lectio-study-planner.github.io`), so the form fails
-  from a local preview or if the site moves to another domain: add the new
-  origin to `ALLOWED_ORIGINS` in the function first.
+  site's origins (`https://lectio.mateoarenas.dev`, and the old
+  `https://lectio-study-planner.github.io`), so the form fails from a local
+  preview or if the site moves to another domain: add the new origin to
+  `ALLOWED_ORIGINS` in the function first.
 - The feature sections are drawings, not screenshots: each shows a piece of
   the app (a course, the timetable, the timer, Progress, ...) in HTML and
   CSS, in the app's own colours (`style.css`: the course colours of the
