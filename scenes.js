@@ -115,24 +115,27 @@ scene('.weeks', (weeks) => {
 });
 
 // Plan: a course's tags cycle by themselves until a visitor taps one, and the
-// ring follows the share of items in a done tag. Taps work under Reduce
+// bar's layers follow them as the app's do: done for a tag in Done, started
+// for a Pending tag past the first, the rest to do. Taps work under Reduce
 // Motion too; only the autoplay is a scene.
 {
     const card = document.querySelector('.course');
     // The default tag sets: name, colour, whether the tag is in Done, and
-    // whether it is in Skipped, which leaves the item out of the ring. A tap
+    // whether it is in Skipped, which leaves the item out of the bar. A tap
     // reaches skipped; the autoplay stops before it.
     const tagSets = {
         reading: [['pending', 'red', false], ['seen', 'orange', false], ['summarized', 'blue', true], ['studied', 'green', true], ['skipped', 'grey', false, true]],
         task: [['pending', 'red', false], ['done', 'blue', true], ['studied', 'green', true], ['skipped', 'grey', false, true]],
     };
     const lastAutoplayTag = (set) => set.findLastIndex((tag) => !tag[3]);
-    // The course's other items: 9 of its 14 are done before these four.
+    // The course's other items: 9 of its 14 are done before these four, and
+    // none is started.
     const otherDone = 9;
     const total = 14;
-    const circumference = 163.36;
-    const ring = card.querySelector('.ring-fill');
-    const percent = card.querySelector('.ring output');
+    const filled = card.querySelector('.layers .filled');
+    const started = card.querySelector('.layers .started');
+    const percent = card.querySelector('.course-percent');
+    const counts = [...card.querySelectorAll('.layer-counts b')];
     const items = [...card.querySelectorAll('.items li')].map((row) => {
         const button = row.querySelector('.tag');
         return { row, button, set: tagSets[button.dataset.set], tag: Number(button.dataset.tag) };
@@ -149,12 +152,19 @@ scene('.weeks', (weeks) => {
             item.button.classList.add('bump');
         }
     };
-    const drawRing = () => {
-        const done = otherDone + items.filter((item) => item.set[item.tag][2]).length;
-        const skipped = items.filter((item) => item.set[item.tag][3]).length;
-        const share = Math.round((done / (total - skipped)) * 100);
-        ring.style.strokeDashoffset = circumference * (1 - share / 100);
-        percent.textContent = `${share}%`;
+    const drawBar = () => {
+        const tags = items.map((item) => item.set[item.tag]);
+        const done = otherDone + tags.filter((tag) => tag[2]).length;
+        const skipped = tags.filter((tag) => tag[3]).length;
+        const begun = items.filter((item, index) => item.tag > 0 && !tags[index][2] && !tags[index][3]).length;
+        const counted = total - skipped;
+        filled.style.width = `${(done / counted) * 100}%`;
+        started.style.width = `${((done + begun) / counted) * 100}%`;
+        percent.textContent = `${Math.round((done / counted) * 100)}%`;
+        counts[0].textContent = done;
+        counts[1].textContent = begun;
+        counts[1].parentElement.hidden = begun === 0;
+        counts[2].textContent = counted - done - begun;
     };
 
     let autoplay = true;
@@ -164,7 +174,7 @@ scene('.weeks', (weeks) => {
         clearInterval(timer);
         item.tag = (item.tag + 1) % item.set.length;
         draw(item, true);
-        drawRing();
+        drawBar();
     }));
 
     const step = () => {
@@ -175,7 +185,7 @@ scene('.weeks', (weeks) => {
         } else {
             items.forEach((item) => { item.tag = 0; draw(item); });
         }
-        drawRing();
+        drawBar();
     };
     const run = () => {
         clearInterval(timer);
@@ -184,7 +194,7 @@ scene('.weeks', (weeks) => {
     scene('.course', () => ({
         rewind() {
             items.forEach((item) => { item.tag = 0; draw(item); });
-            drawRing();
+            drawBar();
         },
         start: run,
         resume: run,
