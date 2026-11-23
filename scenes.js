@@ -348,6 +348,93 @@ scene('.notify', (visual) => {
     }));
 }
 
+// Plan: Suggest opens two items into today and the day fills, Problem set 4
+// is done and Start moves on to the next, then the Exams tab fills each
+// exam's pace. Week | Exams work under Reduce Motion too; a tap stops the
+// autoplay on the finished frame.
+{
+    const card = document.querySelector('.plan-card');
+    const tabs = [...card.querySelectorAll('.plan-tabs button')];
+    const exams = card.querySelector('.plan-exams');
+    const suggested = [...card.querySelectorAll('[data-suggested]')];
+    const first = card.querySelector('[data-first]');
+    const second = card.querySelector('[data-second]');
+    const suggest = card.querySelector('.plan-suggest');
+    const loads = [...card.querySelectorAll('[data-load-before]')];
+    const counts = [...card.querySelectorAll('.plan-room [data-before]')];
+    const loaded = loads.map((el) => el.style.getPropertyValue('--load'));
+    const counted = counts.map((el) => el.textContent);
+
+    const show = (tab) => {
+        card.dataset.tab = tab;
+        tabs.forEach((button) => button.setAttribute('aria-pressed', button.dataset.tab === tab));
+    };
+    const fill = (full) => {
+        loads.forEach((el, index) => el.style.setProperty('--load', full ? loaded[index] : el.dataset.loadBefore));
+        counts.forEach((el, index) => { el.textContent = full ? counted[index] : el.dataset.before; });
+    };
+    const rewind = () => {
+        suggested.forEach((el) => el.classList.add('out'));
+        fill(false);
+        first.classList.remove('done');
+        first.classList.add('next');
+        second.classList.remove('next');
+        exams.classList.add('empty');
+    };
+    const finish = () => {
+        suggested.forEach((el) => el.classList.remove('out', 'fresh'));
+        fill(true);
+        first.classList.remove('done');
+        first.classList.add('next');
+        second.classList.remove('next');
+        exams.classList.remove('empty');
+    };
+
+    let autoplay = true;
+    tabs.forEach((button) => button.addEventListener('click', () => {
+        if (autoplay) finish();
+        autoplay = false;
+        show(button.dataset.tab);
+    }));
+
+    const playing = loop(async (stopped) => {
+        const over = () => stopped() || !autoplay;
+        if (!autoplay) {
+            await sleep(1000);
+            return;
+        }
+        // From the top each time round, and after the card was off screen.
+        show('week');
+        rewind();
+        await sleep(1600);
+        if (over()) return;
+        suggest.classList.add('press');
+        await sleep(240);
+        suggest.classList.remove('press');
+        for (const el of suggested) {
+            await sleep(380);
+            if (over()) return;
+            el.classList.remove('out');
+            el.classList.add('fresh');
+        }
+        fill(true);
+        await sleep(1300);
+        suggested.forEach((el) => el.classList.remove('fresh'));
+        await sleep(1300);
+        if (over()) return;
+        first.classList.remove('next');
+        first.classList.add('done');
+        second.classList.add('next');
+        await sleep(2600);
+        if (over()) return;
+        show('exams');
+        await sleep(300);
+        exams.classList.remove('empty');
+        await sleep(4200);
+    });
+    scene('.plan-card', () => ({ rewind, ...playing }));
+}
+
 // Timer: a pomodoro in fast-forward. 25 minutes run down in 8 seconds, the
 // phase-end pop-up asks what next, and a break runs in green. The Mac's mini
 // player follows it in the page's corner. Focus Clock works under Reduce

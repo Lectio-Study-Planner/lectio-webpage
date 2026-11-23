@@ -18,6 +18,7 @@
     --teal: #30b0c7;
     --indigo: #5856d6;
     --red: #ff3b30;
+    --pink: #ff2d55;
 
     /* The drawings: cards, tracks and the app's own colours */
     --card: #ffffff;
@@ -1161,6 +1162,529 @@ main {
     text-align: center;
     font-weight: 600;
     font-size: 0.9rem;
+}
+
+/* Plan: the week's days, the picked day's plan between its classes, and
+   each exam's pace. Week | Exams switch between them, as the toggles under
+   the app's title do; both panels share one grid cell, so the card keeps
+   its height. Inside the drawing the app's own accent leads, as in the
+   app; the section's pink is only its label. */
+.plan-card {
+    display: grid;
+    grid-template-areas: "tabs" "panel" "buttons";
+    width: 100%;
+    max-width: 26rem;
+    margin: 0 auto;
+    padding-top: 0.9rem;
+    /* A fill that reads on the card in light and dark alike */
+    --fill: color-mix(in srgb, var(--text) 6%, var(--card));
+}
+
+.plan-card p {
+    margin: 0;
+}
+
+.plan-tabs {
+    grid-area: tabs;
+    display: flex;
+    gap: 2px;
+    margin: 0 1.1rem 0.7rem !important;
+    padding: 2px;
+    border-radius: 9px;
+    background: var(--fill);
+}
+
+.plan-tabs button {
+    flex: 1;
+    padding: 0.25rem;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s, box-shadow 0.25s, transform 0.2s var(--ease-pop);
+}
+
+.plan-tabs button[aria-pressed="true"] {
+    background: var(--card);
+    color: var(--text);
+    box-shadow: 0 1px 2px var(--shadow);
+}
+
+.plan-tabs button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.plan-panel {
+    grid-area: panel;
+    min-width: 0;
+    transition: opacity 0.35s, visibility 0.35s;
+}
+
+.plan-card[data-tab="week"] .plan-exams,
+.plan-card[data-tab="exams"] .plan-week {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* The week's days, each with a thin bar of how full it is */
+.plan-strip {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin: 0 0.6rem;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+}
+
+.plan-strip li {
+    display: grid;
+    justify-items: center;
+    gap: 0.2rem;
+}
+
+.plan-strip small {
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 600;
+}
+
+.plan-strip b {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.plan-strip .today small {
+    color: var(--accent);
+}
+
+.plan-strip .today b {
+    background: var(--accent);
+    color: #ffffff;
+}
+
+.plan-strip i,
+.room-bar {
+    position: relative;
+    height: 3px;
+    border-radius: 999px;
+    background: var(--track);
+    overflow: hidden;
+}
+
+.plan-strip i {
+    width: 1.4rem;
+}
+
+.plan-strip .free i {
+    visibility: hidden;
+}
+
+.plan-strip i::after,
+.room-bar i {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: calc(var(--load, 0) * 100%);
+    border-radius: inherit;
+    background: var(--accent);
+    transition: width 0.6s var(--ease-out);
+}
+
+/* Catching Up: work from earlier weeks still to do */
+.catching-up {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin: 0.8rem 0.6rem 0 !important;
+    padding: 0.6rem 0.7rem;
+    border-radius: 14px;
+    background: var(--fill);
+}
+
+.catch-icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9px;
+    background: color-mix(in srgb, var(--orange) 16%, transparent);
+}
+
+.catch-icon svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    fill: none;
+    stroke: var(--orange);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.catch-text {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.88rem;
+}
+
+.catch-text b {
+    display: block;
+    font-weight: 600;
+}
+
+.catch-text small,
+.plan-what small,
+.pace-name small {
+    display: block;
+    color: var(--muted);
+    font-size: 0.75rem;
+}
+
+.catch-choose {
+    flex: none;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+/* The day's name and how full it is */
+.plan-head {
+    margin: 1rem 1.1rem 0.5rem;
+}
+
+.plan-head-top {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.plan-head-top b {
+    font-size: 1.1rem;
+}
+
+.plan-today {
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.plan-room {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.25rem !important;
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.room-bar {
+    flex: 0 1 6rem;
+    height: 4px;
+}
+
+.room-left {
+    margin-left: auto;
+    color: color-mix(in srgb, var(--green) 78%, var(--text));
+    font-weight: 600;
+}
+
+/* A day's rows: an item at its time, or a class between them. A suggested
+   item waits unseen in its place until Add, so nothing beside the card
+   moves as it arrives. */
+.plan-rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.plan-rows li {
+    border-top: 1px solid var(--rule);
+}
+
+.plan-rows li,
+.plan-any {
+    transition: opacity 0.45s, transform 0.45s var(--ease-out), border-color 0.45s;
+}
+
+.plan-rows li.out,
+.plan-any.out {
+    border-color: transparent;
+    opacity: 0;
+    transform: translateY(-0.5rem);
+}
+
+.plan-row {
+    display: grid;
+    grid-template-columns: 2.6rem 4px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.92rem;
+    transition: background 0.8s;
+}
+
+.plan-rows li.fresh .plan-row,
+.plan-any.fresh .plan-row {
+    background: color-mix(in srgb, var(--accent) 10%, var(--card));
+}
+
+.plan-time {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.plan-time b {
+    display: block;
+    color: var(--text);
+    font-size: 0.95rem;
+}
+
+.plan-bar {
+    align-self: stretch;
+    min-height: 1.4rem;
+    border-radius: 2px;
+    background: var(--c);
+}
+
+.plan-class .plan-bar {
+    align-self: center;
+    height: 1.4rem;
+    opacity: 0.45;
+}
+
+.plan-class .plan-what {
+    color: var(--muted);
+    font-size: 0.75rem;
+}
+
+.plan-class .plan-what b {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.plan-title {
+    display: block;
+    transition: color 0.3s;
+}
+
+.plan-item.done .plan-title {
+    color: var(--muted);
+    text-decoration: line-through;
+}
+
+.plan-behind {
+    display: inline-block;
+    margin-left: 0.25rem;
+    padding: 0 0.4rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--orange) 16%, transparent);
+    color: color-mix(in srgb, var(--orange) 72%, var(--text));
+    font-size: 0.68rem;
+    font-weight: 600;
+}
+
+/* A done item's check, or the next item's Start; both sit in one place */
+.plan-end {
+    display: grid;
+    place-items: center;
+}
+
+.plan-end > * {
+    grid-area: 1 / 1;
+}
+
+.plan-check,
+.plan-start {
+    position: relative;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 0.3s, transform 0.35s var(--ease-pop);
+}
+
+.plan-check {
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
+.plan-check::after {
+    content: "";
+    position: absolute;
+    left: 0.45rem;
+    top: 0.25rem;
+    width: 0.3rem;
+    height: 0.55rem;
+    border: solid #ffffff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.plan-start::after {
+    content: "";
+    position: absolute;
+    left: 0.58rem;
+    top: 0.45rem;
+    border-style: solid;
+    border-width: 0.3rem 0 0.3rem 0.48rem;
+    border-color: transparent transparent transparent #ffffff;
+}
+
+.plan-item.done .plan-check,
+.plan-item.next .plan-start {
+    opacity: 1;
+    transform: none;
+}
+
+.plan-list-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0.9rem 1.1rem 0.35rem !important;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.plan-exams .plan-list-head:first-child {
+    margin-top: 0.2rem !important;
+}
+
+.plan-list-head span {
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+/* Exams: each exam's pace, the work done in the course's colour, ticked
+   where an even pace would be today */
+.paces li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 0.6rem;
+    row-gap: 0.5rem;
+    padding: 0.6rem 1.1rem 0.75rem;
+    border-top: 1px solid var(--rule);
+}
+
+.paces .dot {
+    width: 9px;
+    height: 9px;
+}
+
+.pace-name {
+    font-size: 0.92rem;
+}
+
+.pace-name b {
+    display: block;
+    font-weight: 600;
+}
+
+.pace-status {
+    --s: var(--green);
+    padding: 0.12rem 0.55rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--s) 16%, transparent);
+    color: color-mix(in srgb, var(--s) 72%, var(--text));
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.pace-status.ahead {
+    --s: var(--accent);
+}
+
+.pace-status.behind {
+    --s: var(--orange);
+}
+
+.pace-bar {
+    grid-column: 1 / -1;
+    position: relative;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--track);
+}
+
+.pace-bar i {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: calc(var(--done) * 100%);
+    border-radius: inherit;
+    background: var(--c);
+    transition: width 0.9s var(--ease-out);
+}
+
+.pace-bar s {
+    position: absolute;
+    top: -3px;
+    bottom: -3px;
+    left: calc(var(--even) * 100% - 1px);
+    width: 2px;
+    background: var(--text);
+}
+
+.plan-exams.empty .pace-bar i {
+    width: 0;
+}
+
+/* The floating buttons: Suggest bottom left, the "+" bottom right */
+.plan-buttons {
+    grid-area: buttons;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.4rem !important;
+    padding: 0.7rem 1rem 0.9rem;
+    border-top: 1px solid var(--rule);
+}
+
+.plan-suggest {
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    background: var(--fill);
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: transform 0.2s var(--ease-pop), background 0.2s;
+}
+
+.plan-suggest.press {
+    transform: scale(0.92);
+    background: color-mix(in srgb, var(--accent) 18%, var(--fill));
+}
+
+.plan-add {
+    display: grid;
+    place-items: center;
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #ffffff;
+    font-size: 1.4rem;
+    line-height: 1;
 }
 
 /* Timer: the pomodoro card. Focus Clock turns it into the dark, large focus
@@ -2554,6 +3078,10 @@ main {
         color: var(--text);
     }
 
+    .plan-tabs button:hover {
+        color: var(--text);
+    }
+
     .device-picker button[aria-pressed="false"]:hover {
         background: color-mix(in srgb, var(--surface) 60%, transparent);
     }
@@ -2562,7 +3090,8 @@ main {
 @media (prefers-reduced-motion: no-preference) {
     button.tag:active,
     .friend-check:active,
-    .device-picker button:active {
+    .device-picker button:active,
+    .plan-tabs button:active {
         transform: scale(0.95);
     }
 

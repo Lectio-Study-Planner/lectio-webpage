@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lectio – Semester Planner for Mac, iPhone and iPad</title>
-<meta name="description" content="Lectio plans your university semester: courses, weekly readings and tasks, your class schedule, a study timer and your credits. Free on the App Store for Mac, iPhone and iPad.">
+<meta name="description" content="Lectio plans your university semester: courses, weekly readings and tasks, your class schedule, a plan for each day, a study timer and your credits. Free on the App Store for Mac, iPhone and iPad.">
 <meta name="apple-itunes-app" content="app-id=6799411764">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0b0b0d" media="(prefers-color-scheme: dark)">
@@ -208,6 +208,73 @@
 </div>
 </div>
 </div>
+</div>
+</div>
+</section>
+
+<section class="feature split">
+<div class="copy reveal">
+<p class="eyebrow" style="--c: var(--pink)">Plan</p>
+<h2>Know what<br>to do today.</h2>
+<p>Put readings and tasks on the days you'll do them, catch up on earlier weeks, and prepare for each exam session by session. Lectio suggests, you decide.</p>
+</div>
+<div class="visual reveal">
+<div class="card plan-card" data-tab="week">
+<p class="plan-tabs" role="group" aria-label="Show the plan's">
+<button type="button" aria-pressed="true" data-tab="week">Week</button>
+<button type="button" aria-pressed="false" data-tab="exams">Exams</button>
+</p>
+<div class="plan-panel plan-week" role="img" aria-label="Today's plan, between the day's two classes: Lecture 13 done, Problem set 4 at 12:00 up next, exam prep for Linear Algebra at 16:00, and Normal forms at any time. 3 hours 45 minutes of 4 hours 30 minutes planned.">
+<div aria-hidden="true">
+<ol class="plan-strip">
+<li style="--load: 0.9"><small>M</small><b>23</b><i></i></li>
+<li style="--load: 0.6"><small>T</small><b>24</b><i></i></li>
+<li class="today" style="--load: 0.83" data-load-before="0.44"><small>W</small><b>25</b><i></i></li>
+<li style="--load: 0.5"><small>T</small><b>26</b><i></i></li>
+<li style="--load: 0.3"><small>F</small><b>27</b><i></i></li>
+<li class="free"><small>S</small><b>28</b><i></i></li>
+<li class="free"><small>S</small><b>29</b><i></i></li>
+</ol>
+<p class="catching-up"><span class="catch-icon"><svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></span><span class="catch-text"><b>Catching Up</b><small>3 items from weeks 5–6 · about 2h</small></span><span class="catch-choose">Choose</span></p>
+<div class="plan-head">
+<p class="plan-head-top"><b>Wednesday 25</b><span class="plan-today">Today</span></p>
+<p class="plan-room"><span data-before="2h of 4h 30m">3h 45m of 4h 30m</span><span class="room-bar" style="--load: 0.83" data-load-before="0.44"><i></i></span><span class="room-left" data-before="2h 30m left">45m left</span></p>
+</div>
+<ul class="plan-rows">
+<li class="plan-item done" style="--c: var(--ads)"><div class="plan-row"><span class="plan-time">08:30</span><span class="plan-bar"></span><span class="plan-what"><span class="plan-title">Lecture 13 · Shortest paths</span><small>Algorithms and Data Structures · 45m</small></span><span class="plan-end"><span class="plan-check"></span><span class="plan-start"></span></span></div></li>
+<li class="plan-class" style="--c: var(--databases)"><div class="plan-row"><span class="plan-time">10:00</span><span class="plan-bar"></span><span class="plan-what"><b>Databases</b> Lecture · until 11:30</span></div></li>
+<li class="plan-item next" style="--c: var(--ads)" data-first><div class="plan-row"><span class="plan-time">12:00</span><span class="plan-bar"></span><span class="plan-what"><span class="plan-title">Problem set 4</span><small>Algorithms and Data Structures · 1h 15m</small></span><span class="plan-end"><span class="plan-check"></span><span class="plan-start"></span></span></div></li>
+<li class="plan-class" style="--c: var(--ads)"><div class="plan-row"><span class="plan-time">14:00</span><span class="plan-bar"></span><span class="plan-what"><b>Algorithms and Data Structures</b> Exercise · until 15:30</span></div></li>
+<li class="plan-item" style="--c: var(--linalg)" data-suggested data-second><div class="plan-row"><span class="plan-time">16:00</span><span class="plan-bar"></span><span class="plan-what"><span class="plan-title">Exam prep · Linear Algebra</span><small>2 topics · 1h</small></span><span class="plan-end"><span class="plan-check"></span><span class="plan-start"></span></span></div></li>
+</ul>
+<div class="plan-any" data-suggested>
+<div>
+<p class="plan-list-head">Any Time</p>
+<ul class="plan-rows">
+<li class="plan-item" style="--c: var(--databases)"><div class="plan-row"><span class="plan-time"></span><span class="plan-bar"></span><span class="plan-what"><span class="plan-title">Normal forms</span><small>Databases · 45m <span class="plan-behind">Behind</span></small></span><span class="plan-end"><span class="plan-check"></span><span class="plan-start"></span></span></div></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="plan-panel plan-exams" role="img" aria-label="Exam prep: Algorithms and Data Structures on track, Linear Algebra ahead and Databases 2 hours behind, and 4 of this week's 6 hours of sessions planned.">
+<div aria-hidden="true">
+<p class="plan-list-head">Exams</p>
+<ul class="paces">
+<li style="--c: var(--ads); --done: 0.42; --even: 0.4"><span class="dot"></span><span class="pace-name"><b>Algorithms and Data Structures</b><small>Fri 12 Feb · in 79 days</small></span><span class="pace-status">On track</span><span class="pace-bar"><i></i><s></s></span></li>
+<li style="--c: var(--linalg); --done: 0.52; --even: 0.38"><span class="dot"></span><span class="pace-name"><b>Linear Algebra</b><small>Mon 15 Feb · in 82 days</small></span><span class="pace-status ahead">Ahead</span><span class="pace-bar"><i></i><s></s></span></li>
+<li style="--c: var(--databases); --done: 0.2; --even: 0.34"><span class="dot"></span><span class="pace-name"><b>Databases</b><small>Fri 19 Feb · in 86 days</small></span><span class="pace-status behind">2h behind</span><span class="pace-bar"><i></i><s></s></span></li>
+</ul>
+<p class="plan-list-head">This Week<span>4h of 6h planned</span></p>
+<ul class="plan-rows">
+<li class="plan-item done" style="--c: var(--linalg)"><div class="plan-row"><span class="plan-time">Mon<b>23</b></span><span class="plan-bar"></span><span class="plan-what"><span class="plan-title">Linear Algebra</span><small>17:30 · 2 topics · 1h</small></span><span class="plan-end"><span class="plan-check"></span></span></div></li>
+<li class="plan-item" style="--c: var(--linalg)"><div class="plan-row"><span class="plan-time">Wed<b>25</b></span><span class="plan-bar"></span><span class="plan-what"><span class="plan-title">Linear Algebra</span><small>16:00 · 2 topics · 1h</small></span></div></li>
+<li class="plan-item" style="--c: var(--databases)"><div class="plan-row"><span class="plan-time">Thu<b>26</b></span><span class="plan-bar"></span><span class="plan-what"><span class="plan-title">Databases</span><small>17:00 · 3 topics · 1h</small></span></div></li>
+<li class="plan-item" style="--c: var(--ads)"><div class="plan-row"><span class="plan-time">Fri<b>27</b></span><span class="plan-bar"></span><span class="plan-what"><span class="plan-title">Algorithms and Data Structures</span><small>16:00 · 2 topics · 1h</small></span></div></li>
+</ul>
+</div>
+</div>
+<p class="plan-buttons" aria-hidden="true"><span class="plan-suggest">Suggest</span><span class="plan-add">+</span></p>
 </div>
 </div>
 </section>
