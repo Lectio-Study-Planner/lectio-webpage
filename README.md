@@ -70,12 +70,12 @@ a page that forwards itself (`<meta http-equiv="refresh">`).
   <window id>`), so the page's drop shadow follows them, in WebP
   (`cwebp -q 86`): `mac-course` in light mode and `mac-dark` in dark
   (`<picture>` with `prefers-color-scheme`).
-- `images/og-preview.jpg` is the link preview chats and social sites show:
+- `images/og-preview-2.jpg` is the link preview chats and social sites show:
   1200 × 630, the shape they crop to. It is a small HTML card, the app icon,
   the hero's headline and "Lectio · Free for Mac, iPhone and iPad" on the
-  left and the iPhone shot `iphone-semester.webp` in a bezel on the right
-  (no longer in `images/`: take it from the git history to redraw), rendered
-  at 2× in a browser and scaled down to a JPEG (quality 88). Keep it under
+  left and the iPhone's Semester screen in a bezel on the right (the raw
+  frame behind the app repo's `screenshots/iphone-6.3in/01-semester.png`),
+  rendered at 2× in a browser and scaled down to a JPEG (quality 88). Keep it under
   300 KB, which WhatsApp needs for a large preview. Apps cache a preview by
   the image's address, so a redrawn one gets a new file name, and the
   `og:image` tag in `index.html` follows it.
