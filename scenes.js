@@ -114,7 +114,7 @@ scene('.weeks', (weeks) => {
     };
 });
 
-// Plan: a course's tags cycle by themselves until a visitor taps one, and the
+// Semester: a course's tags cycle by themselves until a visitor taps one, and the
 // bar's layers follow them as the app's do: done for a tag in Done, started
 // for a Pending tag past the first, the rest to do. Taps work under Reduce
 // Motion too; only the autoplay is a scene.
