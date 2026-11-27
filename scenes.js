@@ -350,7 +350,7 @@ scene('.notify', (visual) => {
 
 // Plan: Suggest opens two items into today and the day fills, Problem set 4
 // is done and Start moves on to the next, then the Evaluations tab fills each
-// evaluation's pace. Week | Evaluations work under Reduce Motion too; a tap stops the
+// evaluation's pace. Plans | Evaluations work under Reduce Motion too; a tap stops the
 // autoplay on the finished frame.
 {
     const card = document.querySelector('.plan-card');
